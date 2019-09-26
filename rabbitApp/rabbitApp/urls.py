@@ -25,3 +25,4 @@ urlpatterns = [
     path('', views.index),
     path('register/', views.register)
 ] + static(settings.STATIC_URL)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
