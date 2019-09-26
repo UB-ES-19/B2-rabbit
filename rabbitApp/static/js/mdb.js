@@ -15,7 +15,7 @@
  *
  * Tutorials: https://mdbootstrap.com/education/bootstrap/
  *
- * Templates: https://mdbootstrap.com/templates/
+ * templates: https://mdbootstrap.com/templates/
  *
  * Support: https://mdbootstrap.com/forums/forum/support/
  *
