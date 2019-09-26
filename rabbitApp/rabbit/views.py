@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 # Create your views here.
@@ -7,4 +7,4 @@ def index(request):
 
 
 def register(request):
-    return render(request, 'base.html')
+    return redirect(index)
