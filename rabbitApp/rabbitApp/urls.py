@@ -23,5 +23,5 @@ from rabbitApp import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
-    path('register/', views.register)
+    path('register', views.register)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
