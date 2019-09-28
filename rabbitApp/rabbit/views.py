@@ -9,7 +9,7 @@ def index(request):
     context = {
         'form': form
     }
-    return render(request, 'base.html', context)
+    return render(request, 'home.html', context)
 
 
 def register(request):
