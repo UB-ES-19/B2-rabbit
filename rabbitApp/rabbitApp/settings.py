@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rabbit.apps.RabbitConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
