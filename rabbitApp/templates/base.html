@@ -11,17 +11,26 @@
     {% block links %} {% endblock %}
 </head>
 <body>
-
 <nav class="navbar navbar-dark white">
   <a class="navbar-brand" >
      <i class="fas fa-registered fa-2x prefix text-info"></i>
   </a>
-    <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" data-toggle="modal" data-target="#modalRegisterForm">
-        Sign up
-    </button>
+
+    {% if not request.user.is_authenticated %}
+        <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" data-toggle="modal" data-target="#modalRegisterForm">
+            Sign up
+        </button>
+        <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" data-toggle="modal" data-target="#modalLoginForm">
+            Login
+        </button>
+    {% endif %}
 </nav>
 <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     {% include 'registrationForm.html' %}
+</div>
+
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    {% include 'loginForm.html' %}
 </div>
 
 {% block content-body %}
