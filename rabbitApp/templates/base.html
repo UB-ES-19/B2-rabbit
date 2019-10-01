@@ -17,22 +17,21 @@
   </a>
 
     {% if not request.user.is_authenticated %}
-        <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" data-toggle="modal" data-target="#modalRegisterForm">
+        <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" onclick="modal_register()">
             Sign up
         </button>
-        <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" data-toggle="modal" data-target="#modalLoginForm">
+        <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" onclick="modal_login()">
             Login
         </button>
         {% else %}
-        <p class="mt-3">Hello, {{ request.user.username }}!</p>
+        <p class="mt-3">Hello, <b>{{ request.user.username }}</b>!</p>
     {% endif %}
 </nav>
+
 <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    {% include 'registrationForm.html' %}
 </div>
 
 <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    {% include 'loginForm.html' %}
 </div>
 
 {% block content-body %}
@@ -41,7 +40,46 @@
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/mdb.min.js' %}"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
 
+    let modalLoginLoaded = false;
+    let modalRegisterLoaded = false;
+    let modalRegister = $('#modalRegisterForm');
+    let modalLogin = $('#modalLoginForm');
+    function modal_register(){
+        if(modalRegisterLoaded){
+            modalRegister.modal('show');
+        }
+        else{
+            $.ajax({
+                method: 'GET',
+                url: "{% url 'register' %}",
+                success: (data) => {
+                    modalRegister.html(data);
+                    $('#modalRegisterForm').modal('show');
+                    modalRegisterLoaded = true;
+                }
+            });
+        }
+    }
+
+    function modal_login(){
+        if(modalLoginLoaded){
+            modalLogin.modal('show');
+        }
+        else{
+            $.ajax({
+                method: 'GET',
+                url: "{% url 'login' %}",
+                success: (data) => {
+                    modalLogin.html(data);
+                    modalLogin.modal('show');
+                    modalLoginLoaded = true;
+                }
+            });
+        }
+    }
+
+</script>
 
 </html>

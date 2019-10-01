@@ -6,9 +6,7 @@ from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
-    form = UserCreationForm()
     context = {
-        'form': form
     }
     return render(request, 'home.html', context)
 
@@ -26,6 +24,10 @@ def register(request):
             context["errors"] = form.errors
             context["form"] = form
             return render(request, 'registrationForm.html', {'form': form})
+    elif request.method == 'GET':
+        form = UserCreationForm()
+        context["form_register"] = form
+        return render(request, 'registrationForm.html', context)
 
 
 def login_user(request):
@@ -43,3 +45,7 @@ def login_user(request):
                 return render(request, 'loginForm.html', {'form': form})
         else:
             return render(request, 'loginForm.html', {'form': form})
+    elif request.method == "GET":
+        form = AuthenticationForm()
+        context["form_login"] = form
+        return render(request, 'loginForm.html', context)
