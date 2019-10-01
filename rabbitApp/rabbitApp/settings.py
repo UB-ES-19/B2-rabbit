@@ -26,7 +26,7 @@ SECRET_KEY = 'j99y#zq47evalf@unu)%)e#8urr=z)abe$r3!zhzob7b70$_v4'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+APPEND_SLASH = False
 
 # Application definition
 
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rabbit.apps.RabbitConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +121,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = 'webstatic'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    "static"
+]
