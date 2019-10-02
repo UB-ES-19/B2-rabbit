@@ -10,23 +10,37 @@
                 </button>
               </div>
               <div class="modal-body mx-3">
+                  {% if form_register.non_field_errors %}
+                   <div class="row mb-5 d-inline">
+                   <i class="fas fa-exclamation-triangle prefix text-danger "></i>
+                       {% for error in form_register.non_field_errors %}
+                            <span class="text-danger ">{{ error }}</span>
+                       {% endfor %}
+                    </div>
+                  {% endif %}
                 <div class="md-form mb-5">
                   <i class="fas fa-user prefix text-info"></i>
                     {{ form_register.username|add_class:"form-control validate" }}
                     <label data-error="wrong" data-success="right" for="{{form_register.username.id_for_label}}">Username</label>
-                    {{ form_register.username.errors }}
+                    {% if form_register.username.errors %}
+                        {% include 'fieldError.html' with errors=form_register.username.errors %}
+                    {% endif %}
                 </div>
                 <div class="md-form mb-5">
                   <i class="fas fa-lock prefix text-info" title="{{ form_register.password1.help_text }}"></i>
                   {{ form_register.password1|add_class:"form-control validate" }}
                     <label data-error="wrong" data-success="right" for="{{form_register.password1.id_for_label}}">Password</label>
-                    {{ form_register.password1.errors }}
+                    {% if form_register.password1.errors %}
+                        {% include 'fieldError.html' with errors=form_register.password1.errors %}
+                    {% endif %}
                 </div>
                 <div class="md-form mb-4">
                   <i class="fas fa-lock prefix text-info"></i>
                   {{ form_register.password2|add_class:"form-control validate" }}
                     <label data-error="wrong" data-success="right" for="{{form_register.password2.id_for_label}}">Confirm Password</label>
-                    {{ form_register.password2.errors }}
+                    {% if form_register.password2.errors %}
+                        {% include 'fieldError.html' with errors=form_register.password2.errors %}
+                    {% endif %}
                 </div>
               </div>
               <div class="modal-footer d-flex justify-content-center">
