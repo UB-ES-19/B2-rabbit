@@ -1,34 +1,49 @@
 {% load widget_tweaks %}
 <form id="loginForm">
-             {% csrf_token %}
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">Login</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body mx-3">
-                    <div class="md-form mb-5">
-                      <i class="fas fa-user prefix text-info"></i>
-                        {{ form_login.username|add_class:"form-control validate" }}
-                        <label data-error="wrong" data-success="right" for="{{form_login.username.id_for_label}}">Username</label>
-                        {{ form_login.username.errors }}
-                    </div>
-                    <div class="md-form mb-4">
-                      <i class="fas fa-lock prefix text-info" ></i>
-                      {{ form_login.password|add_class:"form-control validate" }}
-                        <label data-error="wrong" data-success="right" for="{{form_login.password.id_for_label}}">Password</label>
-                        {{ form_login.password.errors }}
-                    </div>
-              </div>
-              <div class="modal-footer d-flex justify-content-center pt-10">
-                <button class="btn btn-info rounded-pill" type="button" onclick="login()">Login</button>
-              </div>
-            </div>
+         {% csrf_token %}
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold">Login</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-    </form>
+          <div class="modal-body mx-3">
+              {% if form_login.non_field_errors %}
+               <div class="row mb-5 d-inline">
+               <i class="fas fa-exclamation-triangle prefix text-danger "></i>
+                   {% for error in form_login.non_field_errors %}
+                        <span class="text-danger ">{{ error }}</span>
+                   {% endfor %}
+                </div>
+              {% endif %}
+                <div class="md-form mb-5">
+                  <i class="fas fa-user prefix text-info"></i>
+                    {{ form_login.username|add_class:"form-control validate" }}
+                    <label data-error="wrong" data-success="right" for="{{form_login.username.id_for_label}}">Username</label>
+                    {% if form_login.username.errors %}
+                        {% include 'fieldError.html' with errors=form_login.username.errors %}
+                    {% endif %}
+                </div>
+
+                <div class="md-form mb-4">
+                  <i class="fas fa-lock prefix text-info" ></i>
+                  {{ form_login.password|add_class:"form-control validate" }}
+                    <label data-error="wrong" data-success="right" for="{{form_login.password.id_for_label}}">Password</label>
+                     {% if form_login.password.errors %}
+                        {% include 'fieldError.html' with errors=form_login.password.errors %}
+                    {% endif %}
+                </div>
+
+
+          </div>
+          <div class="modal-footer d-flex justify-content-center pt-10">
+            <button class="btn btn-info rounded-pill" type="button" onclick="login()">Login</button>
+          </div>
+        </div>
+      </div>
+</form>
 
 <script type="text/javascript">
 
@@ -43,6 +58,7 @@
                     location.reload();
                 } else {
                     modalLogForm.html(data);
+                    $('#id_username').focus();
                     modalLogForm.modal('show');
                 }
             }
