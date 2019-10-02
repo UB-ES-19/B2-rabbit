@@ -21,9 +21,8 @@ def register(request):
             new_user.save()
             return JsonResponse(status='200', data={'status': 'ok'})
         else:
-            context["errors"] = form.errors
-            context["form"] = form
-            return render(request, 'registrationForm.html', {'form': form})
+            context["form_register"] = form
+            return render(request, 'registrationForm.html', context)
     elif request.method == 'GET':
         form = UserCreationForm()
         context["form_register"] = form
@@ -42,9 +41,10 @@ def login_user(request):
                 login(request, user)
                 return JsonResponse(status='200', data={'status': 'ok'})
             else:
-                return render(request, 'loginForm.html', {'form': form})
+                context['form_login'] = form
+                return render(request, 'loginForm.html', context)
         else:
-            return render(request, 'loginForm.html', {'form': form})
+            return render(request, 'loginForm.html', {'form_login': form})
     elif request.method == "GET":
         form = AuthenticationForm()
         context["form_login"] = form
