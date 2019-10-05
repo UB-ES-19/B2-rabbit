@@ -7,6 +7,9 @@ from rabbit.forms import PostForm
 
 
 # Create your views here.
+from rabbit.models import Post
+
+
 def index(request):
     context = {
     }
@@ -59,13 +62,14 @@ def create_post(request):
     if request.method == "POST":
         form = PostForm(data=request.POST)
         if form.is_valid():
-            post = form.save()
+            post = form.save(commit=False)
+            post.user = request.user
             post.save()
             return redirect('index')
         else:
             context["form_post"] = form
-            return render(request, '', context)
+            return render(request, 'postForm.html', context)
     elif request.method == "GET":
         form = PostForm()
         context["form_post"] = form
-        return render(request, '', context)
+        return render(request, 'postForm.html', context)
