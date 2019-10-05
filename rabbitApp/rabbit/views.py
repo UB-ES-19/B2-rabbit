@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from rabbit.forms import PostForm
 
 
 # Create your views here.
@@ -49,3 +51,21 @@ def login_user(request):
         form = AuthenticationForm()
         context["form_login"] = form
         return render(request, 'loginForm.html', context)
+
+
+@login_required()
+def create_post(request):
+    context = {}
+    if request.method == "POST":
+        form = PostForm(data=request.POST)
+        if form.is_valid():
+            post = form.save()
+            post.save()
+            return redirect('index')
+        else:
+            context["form_post"] = form
+            return render(request, '', context)
+    elif request.method == "GET":
+        form = PostForm()
+        context["form_post"] = form
+        return render(request, '', context)
