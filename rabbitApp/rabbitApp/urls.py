@@ -25,5 +25,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('register', views.register, name='register'),
     path('login', views.login_user, name='login'),
-    path('submit', views.create_post, name='submit')
+    path('submit', views.create_post, name='submit'),
+    path('imgsubmit', views.post_img, name='img_submit'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,8 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from rabbit.forms import PostForm
-
+from rabbit.forms import PostForm, ImgPostForm
 
 # Create your views here.
 from rabbit.models import Post
@@ -72,4 +71,20 @@ def create_post(request):
     elif request.method == "GET":
         form = PostForm()
         context["form_post"] = form
+        context["form_img_post"] = ImgPostForm()
         return render(request, 'postForm.html', context)
+
+
+@login_required()
+def post_img(request):
+    context = {}
+    if request.method == "POST":
+        form = ImgPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            img_post = form.save(commit=False)
+            img_post.user = request.user
+            img_post.save()
+            return redirect('index')
+        else:
+            context["form_img_post"] = form
+            return redirect(create_post, context)
