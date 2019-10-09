@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content-body %}
+<div id="post_form">
+{% include 'postForm.html' %}
+</div>
+{% endblock %}
+
+{% block more-scripts %}
+     <script type="text/javascript">
+        ClassicEditor
+            .create( document.querySelector( '#id_description' ), {
+                 toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+                
+            } )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+    </script>
+{% endblock %}

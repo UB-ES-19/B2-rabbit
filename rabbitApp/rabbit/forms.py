@@ -20,3 +20,13 @@ class ImgPostForm(ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
         }
+
+
+class LinkPostForm(ModelForm):
+    class Meta:
+        model = LinkPost
+        fields = ['link', 'title']
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Title'}),
+            'link': forms.TextInput(attrs={'placeholder': 'Write ur link', 'class': 'form-control'}),
+        }
