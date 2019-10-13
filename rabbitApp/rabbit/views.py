@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+
 from rabbit.forms import PostForm
 
 
@@ -11,7 +12,9 @@ from rabbit.models import Post
 
 
 def index(request):
+    all_posts = Post.objects.all()
     context = {
+        'posts': all_posts
     }
     return render(request, 'home.html', context)
 

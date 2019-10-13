@@ -3,14 +3,13 @@ from django.db import models
 
 
 # Create your models here.
+
+
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        abstract = True
 
 
 def get_image_filename(instance, filename):
