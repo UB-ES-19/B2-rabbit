@@ -67,7 +67,9 @@ def create_post(request):
             return JsonResponse(status='200', data={'status': 'ok'})
         else:
             context["form_post"] = form
-            return render(request, 'submit.html', context)
+            context["form_img_post"] = ImgPostForm()
+            context['form_link'] = LinkPostForm()
+            return render(request, 'postForm.html', context)
     elif request.method == "GET":
         form = PostForm()
         context["form_post"] = form
@@ -90,7 +92,7 @@ def post_img(request):
             context["form_post"] = PostForm()
             context["form_img_post"] = form
             context['form_link'] = LinkPostForm()
-            return render(request, 'submit.html', context)
+            return render(request, 'postForm.html', context)
 
 
 @login_required()
@@ -107,5 +109,5 @@ def post_link(request):
             context["form_img_post"] = form
             context["form_post"] = PostForm()
             context["form_img_post"] = ImgPostForm()
-            return render(request, 'submit.html', context)
+            return render(request, 'postForm.html', context)
 

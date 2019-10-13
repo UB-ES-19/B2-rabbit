@@ -27,7 +27,7 @@ class DescriptionPost(Post):
 
 
 class ImgPost(Post):
-    img = models.ImageField(upload_to=get_image_filename)
+    img = models.FileField(upload_to=get_image_filename)
 
 
 class LinkPost(Post):
