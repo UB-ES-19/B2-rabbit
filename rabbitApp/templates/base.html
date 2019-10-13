@@ -12,36 +12,51 @@
     {% block links %} {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-dark white">
+<nav class="navbar navbar-light white" id="navbar_principal">
   <a class="navbar-brand" >
      <i class="fas fa-registered fa-2x prefix text-info"></i>
   </a>
 
     {% if not request.user.is_authenticated %}
-        <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" onclick="modal_register()">
-            Sign up
-        </button>
-        <button class="btn btn-primary btn-sm my-0 rounded-pill" type="button" onclick="modal_login()">
-            Login
-        </button>
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">Menu</button>
-        <div class="dropdown-menu dropdown-primary">
-            <a class="dropdown-item" onclick="modal_register()">Register</a>
-            <a class="dropdown-item" onclick="modal_login()">Log in</a>
-          </div>
-        </div>
-        {% else %}
-        <p class="mt-3">Hello, <b>{{ request.user.username }}</b>!</p>
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item">
+                <button class="btn btn-sm my-0 btn-outline-primary" type="button" onclick="modal_login()">
+                    Login
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-primary btn-sm my-0 ml-3" type="button" onclick="modal_register()">
+                    Sign up
+                </button>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="my-1 mr-5 ml-3 dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                </a>
+                <div class="dropdown-menu dropdown-primary">
+                     <a class="dropdown-item" onclick="modal_register()"><i class="fas fa-user-plus"></i>  Register</a>
+                     <a class="dropdown-item" onclick="modal_login()"><i class="fas fa-sign-in-alt"></i> Log in</a>
+                 </div>
+            </li>
+        </ul>
 
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">Menu</button>
-        <div class="dropdown-menu dropdown-primary">
-            <a class="dropdown-item" href="/logout#">Log out</a>
-          </div>
-        </div>
+        {% else %}
+         <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item">
+                    <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="my-1 mr-5 ml-3 dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-circle mr-2"></i> {{ request.user.username }}
+                </a>
+                <div class="dropdown-menu dropdown-primary">
+                     <a class="dropdown-item" href="/logout#">Log out</a>
+                 </div>
+            </li>
+        </ul>
+
     {% endif %}
 </nav>
 
