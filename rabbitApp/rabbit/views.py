@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -111,3 +111,8 @@ def post_link(request):
             context["form_img_post"] = ImgPostForm()
             return render(request, 'postForm.html', context)
 
+
+@login_required()
+def logout_user(request):
+    logout(request)
+    return redirect('/')
