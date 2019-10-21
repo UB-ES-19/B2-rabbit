@@ -1,1 +1,47 @@
 {% extends 'base.html' %}
+
+{% block content-body %}
+
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3 left">
+            {% for post in lastPost %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <p class="card-text text-muted h6">Posted by <b>{{ post.user }}</b> at {{ post.creation_date }} </p>
+                        <h2 class="card-title">{{ post.title | safe }}</h2>
+                        {% if post.description %}
+                            <p class="card-text">{{ post.description | safe }}</p>
+                        {% endif %}
+                        {% if post.img %}
+
+                                    <img src= "\media\{{ post.img }}" class="img-fluid" alt="img" />
+
+                        {% endif %}
+                        {% if post.link %}
+                            <p>Post link</p>
+                            <a href={{ post.link}}>{{ post.link }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% block sidebar %}
+        {% include 'sidebar.html' %}
+    {% endblock sidebar %}
+    </div>
+</div>
+{% endblock %}
