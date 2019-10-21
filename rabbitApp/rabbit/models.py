@@ -19,7 +19,8 @@ class Post(models.Model):
 
 
 def get_image_filename(instance, filename):
-    return "images/post/%s" % str(datetime.now()) + filename
+    post_id = instance.id
+    return "images/%s" % post_id + "/" + filename
 
 
 class DescriptionPost(Post):
@@ -27,7 +28,7 @@ class DescriptionPost(Post):
 
 
 class ImgPost(Post):
-    img = models.FileField(upload_to=get_image_filename)
+    img = models.ImageField(upload_to=get_image_filename)
 
 
 class LinkPost(Post):
