@@ -1,8 +1,12 @@
 from django.contrib.auth.models import User
 from django.db import models
+import os
 
 
 # Create your models here.
+
+
+from rabbitApp import settings
 
 
 class Post(models.Model):
@@ -11,10 +15,8 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
 
-
 def get_image_filename(instance, filename):
-    post_id = instance.post.id
-    return "images/%s" % post_id + "/" + filename
+    return "images/post/%s" % str(datetime.now()) + filename
 
 
 class DescriptionPost(Post):
@@ -22,7 +24,7 @@ class DescriptionPost(Post):
 
 
 class ImgPost(Post):
-    img = models.ImageField(upload_to=get_image_filename)
+    img = models.FileField(upload_to=get_image_filename)
 
 
 class LinkPost(Post):
