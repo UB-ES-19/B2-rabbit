@@ -1,12 +1,7 @@
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.db import models
 import os
-
-
-# Create your models here.
-
-
-from rabbitApp import settings
 
 
 class Post(models.Model):
