@@ -4,19 +4,11 @@ from django.db import models
 import os
 
 
-# Create your models here.
-from rabbitApp import settings
-
-
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        abstract = True
-
 
 def get_image_filename(instance, filename):
     return "images/post/%s" % str(datetime.now()) + filename
