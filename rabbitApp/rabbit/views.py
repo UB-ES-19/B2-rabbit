@@ -3,6 +3,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+
+from rabbit.forms import PostForm
+
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm
 from rabbit.models import DescriptionPost, ImgPost, LinkPost
 
