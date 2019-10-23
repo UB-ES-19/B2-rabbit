@@ -109,12 +109,12 @@ def post_link(request):
     if request.method == "POST":
         form = LinkPostForm(request.POST)
         if form.is_valid():
-            img_post = form.save(commit=False)
-            img_post.user = request.user
-            img_post.save()
+            link_post = form.save(commit=False)
+            link_post.user = request.user
+            link_post.save()
             return JsonResponse(status='200', data={'status': 'ok'})
         else:
-            context["form_img_post"] = form
+            context["form_link"] = form
             context["form_post"] = PostForm()
             context["form_img_post"] = ImgPostForm()
             return render(request, 'postForm.html', context)
