@@ -26,14 +26,14 @@
                       <form id="description_form" action="" method="post">
                           {% csrf_token %}
                           {{ form_post.title|add_class:"form-control mt-2 mb-2"}}
-                          {{ form_post.description |add_class:"form-control mt-2 mb-2"}}
-                          <div class="mb-2 mt-2 ">
-                          {% if form_post.errors %}
-                              <i class="fas fa-exclamation-triangle prefix text-danger ml-2"></i>
-                               {% for error in form_post.errors %}
-                                    <span class="text-danger ">{{ error }}</span>
-                               {% endfor %}
+                        {% if form_post.title.errors %}
+                            {% include 'fieldError.html' with errors=form_post.title.errors %}
                           {% endif %}
+                          {{ form_post.description |add_class:"form-control mt-2 mb-2"}}
+                        {% if form_post.description.errors %}
+                            {% include 'fieldError.html' with errors=form_post.description.errors %}
+                          {% endif %}
+                          <div class="mb-2 mt-2 ">
                               <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_description()">POST</button>
                           </div>
                       </form>
@@ -42,19 +42,19 @@
                       <form id="image_form" enctype='multipart/form-data' method="post">
                           {% csrf_token %}
                           {{ form_img_post.title|add_class:"form-control mt-2 mb-2"}}
-                          {{ form_img_post.img }}
+                        {% if form_img_post.title.errors %}
+                            {% include 'fieldError.html' with errors=form_img_post.title.errors %}
+                          {% endif %}
+                          {{ form_img_post.img | attr:'accept:image/*' }}
+                        {% if form_img_post.img.errors %}
+                            {% include 'fieldError.html' with errors=form_img_post.img.errors %}
+                          {% endif %}
                           <div class="mb-2 mt-2" >
                             <div class="row">
                                 <div class="col-12" id="img_show">
                                 </div>
                             </div>
-                              {% if form_img_post.errors %}
-                                   <i class="fas fa-exclamation-triangle prefix text-danger ml-2"></i>
-                                   {% for error in form_img_post.errors %}
-                                        <span class="text-danger ">{{ error }}</span>
-                                   {% endfor %}
-                              {% endif %}
-                                  <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_image()">POST</button>
+                              <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_image()">POST</button>
                           </div>
                       </form>
                   </div>
@@ -62,14 +62,14 @@
                       <form id="link_form"  method="post">
                           {% csrf_token %}
                           {{ form_link.title|add_class:"form-control mt-2 mb-2"}}
+                          {% if form_link.title.errors %}
+                            {% include 'fieldError.html' with errors=form_link.title.errors %}
+                          {% endif %}
                           {{ form_link.link }}
+                          {% if form_link.link.errors %}
+                            {% include 'fieldError.html' with errors=form_link.link.errors %}
+                          {% endif %}
                           <div class="mb-2 mt-2 ">
-                              {% if form_link.errors  %}
-                                   <i class="fas fa-exclamation-triangle prefix text-danger ml-2"></i>
-                                   {% for error in form_link.errors %}
-                                        <span class="text-danger ">{{ error }}</span>
-                                   {% endfor %}
-                              {% endif %}
                               <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_link()">POST</button>
                           </div>
                       </form>
@@ -84,3 +84,16 @@
         </div>
 
     </div>
+{% if form_img_post.errors %}
+    <script>
+    $(document).ready(function () {
+        $('#image-video-tab').click();
+    });
+    </script>
+{% elif form_link.errors %}
+    <script>
+    $(document).ready(function () {
+        $('#link-tab').click();
+    });
+    </script>
+{% endif %}
