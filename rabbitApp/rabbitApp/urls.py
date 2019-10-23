@@ -22,7 +22,15 @@ from rabbitApp import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
-    path('register', views.register, name='register'),
+    path('', views.index, name='index'),
+    path('register/', views.register, name='register'),
     path('login', views.login_user, name='login'),
+    path('submit', views.create_post, name='submit'),
+    path('logout',views.logout_user, name='logout'),
+    path('submit', views.create_post, name='submit'),
+    path('imgsubmit', views.post_img, name='img_submit'),
+    path('linksubmit', views.post_link, name='link_submit'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

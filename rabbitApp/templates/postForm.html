@@ -1,0 +1,99 @@
+{% load widget_tweaks %}
+<div class="mt-4">
+    <div class="row">
+        <div class="col-xl-9">
+            <h5><b>Create a post</b></h5>
+            <hr>
+            <div class="card tab-card">
+                <div class="card-header tab-card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="post-tab" data-toggle="tab" href="#post" role="tab" aria-controls="post"
+                          aria-selected="true"><i class="fas fa-comment-alt text-info mr-2"></i>Post</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="image-video-tab" data-toggle="tab" href="#image" role="tab" aria-controls="image"
+                          aria-selected="true"><i class="fas fa-image text-info mr-2"></i>Image & Video</a>
+                      </li>
+                        <li class="nav-item">
+                        <a class="nav-link" id="link-tab" data-toggle="tab" href="#link" role="tab" aria-controls="link"
+                          aria-selected="true"><i class="fas fa-link text-info mr-2"></i>Link</a>
+                      </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade show active ml-2 mr-2 mt-2 mb-2" id="post" role="tabpanel" aria-labelledby="post-tab">
+                      <form id="description_form" action="" method="post">
+                          {% csrf_token %}
+                          {{ form_post.title|add_class:"form-control mt-2 mb-2"}}
+                        {% if form_post.title.errors %}
+                            {% include 'fieldError.html' with errors=form_post.title.errors %}
+                          {% endif %}
+                          {{ form_post.description |add_class:"form-control mt-2 mb-2"}}
+                        {% if form_post.description.errors %}
+                            {% include 'fieldError.html' with errors=form_post.description.errors %}
+                          {% endif %}
+                          <div class="mb-2 mt-2 ">
+                              <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_description()">POST</button>
+                          </div>
+                      </form>
+                  </div>
+                    <div class="tab-pane fade ml-2 mr-2 mt-2 mb-2" id="image" role="tabpanel" aria-labelledby="image-video-tab">
+                      <form id="image_form" enctype='multipart/form-data' method="post">
+                          {% csrf_token %}
+                          {{ form_img_post.title|add_class:"form-control mt-2 mb-2"}}
+                        {% if form_img_post.title.errors %}
+                            {% include 'fieldError.html' with errors=form_img_post.title.errors %}
+                          {% endif %}
+                          {{ form_img_post.img | attr:'accept:image/*' }}
+                        {% if form_img_post.img.errors %}
+                            {% include 'fieldError.html' with errors=form_img_post.img.errors %}
+                          {% endif %}
+                          <div class="mb-2 mt-2" >
+                            <div class="row">
+                                <div class="col-12" id="img_show">
+                                </div>
+                            </div>
+                              <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_image()">POST</button>
+                          </div>
+                      </form>
+                  </div>
+                    <div class="tab-pane fade ml-2 mr-2 mt-2 mb-2" id="link" role="tabpanel" aria-labelledby="link-tab">
+                      <form id="link_form"  method="post">
+                          {% csrf_token %}
+                          {{ form_link.title|add_class:"form-control mt-2 mb-2"}}
+                          {% if form_link.title.errors %}
+                            {% include 'fieldError.html' with errors=form_link.title.errors %}
+                          {% endif %}
+                          {{ form_link.link }}
+                          {% if form_link.link.errors %}
+                            {% include 'fieldError.html' with errors=form_link.link.errors %}
+                          {% endif %}
+                          <div class="mb-2 mt-2 ">
+                              <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_link()">POST</button>
+                          </div>
+                      </form>
+                  </div>
+                </div>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+
+        </div>
+
+    </div>
+{% if form_img_post.errors %}
+    <script>
+    $(document).ready(function () {
+        $('#image-video-tab').click();
+    });
+    </script>
+{% elif form_link.errors %}
+    <script>
+    $(document).ready(function () {
+        $('#link-tab').click();
+    });
+    </script>
+{% endif %}
