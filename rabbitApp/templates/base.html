@@ -15,7 +15,7 @@
 </head>
 <body>
 <nav class="navbar navbar-light white" id="navbar_principal">
-  <a class="navbar-brand" >
+  <a class="navbar-brand" href="{% url 'index' %}">
      <img src="static/img/rabbit-logo.png" class="img" height="30px">
   </a>
 
@@ -70,9 +70,60 @@
 
 
 <div class="container">
-    {% block content-body %}
-
-    {% endblock %}
+    <div class="container">
+        <div class="row">
+            <!-- Blog Entries Column -->
+            <div class="col-md-8 mt-3 left">
+                {% block content-body %}
+                {% endblock %}
+            </div>
+            <div class="col-md-4 float-right ">
+                {% block sidebar %}
+                    <!-- Sidebar Widgets Column -->
+                    {% if not request.user.is_authenticated %}
+                    <div class="card my-4">
+                            <h5 class="card-header">Welcome to Rabbit</h5>
+                        <div class="card-body">
+                            <p class="card-text"> Rabbit is a open community to post and share everything you want.</p>
+                            <p class="card-text">Register and begin sharing your thougts, links and memes with friends and strangers. </p>
+                        </div>
+                    </div>
+                    {%  endif %}
+                    {% if request.user.is_authenticated %}
+                    <div class="card my-4">
+                            <h5 class="card-header">Welcome <b>{{user}}</b></h5>
+                        <div class="card-body">
+                            <p class="card-text"> This is your personal rabbit front page.</p>
+                            <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+                            <button class="btn btn-primary btn-sm my-0 ml-3"" type="button">CREATE POST</button>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card my-4">
+                            <h5 class="card-header">Community rules</h5>
+                        <div class="card-body">
+                             <p class="card-text"> Remember before posting:</p>
+                            <ul>
+                                <li class="card-text">Respect others users</li>
+                                <li class="card-text">Behave like you would in real life</li>
+                                <li class="card-text">Look for the original source of content</li>
+                                <li class="card-text">Search for duplicates before posting</li>
+                                <li class="card-text">Read the community’s rules</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card my-4">
+                            <h5 class="card-header">Rabbit disclaimer</h5>
+                        <div class="card-body">
+                             <p class="card-text"> Posting memes can be addictive and cause severe procrastination.</p>
+                             <p class="card-text"> In no event shall Rabbit Inc be liable for any loss, personal damage, misuse of personal information or privacy breach</p>
+                        </div>
+                    </div>
+                {% endblock sidebar %}
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

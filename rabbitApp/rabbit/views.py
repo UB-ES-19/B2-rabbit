@@ -7,15 +7,18 @@ from django.contrib.auth.decorators import login_required
 from rabbit.forms import PostForm
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm
+from rabbit.models import DescriptionPost, ImgPost, LinkPost
 
 # Create your views here.
-from rabbit.models import Post
-
 
 def index(request):
-    all_posts = Post.objects.all()
+    lastDescriptionPost = DescriptionPost.objects.order_by('-creation_date')[:10]
+    lastImgPost = ImgPost.objects.order_by('-creation_date')[:10]
+    lastLinkPost = LinkPost.objects.order_by('-creation_date')[:10]
+    lastPost = list(lastDescriptionPost) + list(lastImgPost) + list(lastLinkPost)
+    lastPost.sort(key=lambda x: x.creation_date, reverse=True)
     context = {
-        'posts': all_posts
+        'lastPost': lastPost
     }
     return render(request, 'home.html', context)
 
