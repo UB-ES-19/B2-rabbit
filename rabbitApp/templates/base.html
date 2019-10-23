@@ -15,8 +15,9 @@
 </head>
 <body>
 <nav class="navbar navbar-light white" id="navbar_principal">
-  <a class="navbar-brand" >
-     <a href="{% url 'index' %}"><img src="static/img/rabbit-logo.png" class="img" height="30px" alt="rabbit logo"></a></a>
+  <a class="navbar-brand" href="{% url 'index' %}">
+     <img src="static/img/rabbit-logo.png" class="img" height="30px">
+  </a>
 
     {% if not request.user.is_authenticated %}
         <ul class="navbar-nav ml-auto nav-flex-icons">
