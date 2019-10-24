@@ -5,7 +5,7 @@ from django import forms
 
 class PostForm(ModelForm):
     class Meta:
-        model = DescriptionPost
+        model = Post
         fields = ['description', 'title']
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
@@ -14,7 +14,7 @@ class PostForm(ModelForm):
 
 class ImgPostForm(ModelForm):
     class Meta:
-        model = ImgPost
+        model = Post
         fields = ['img', 'title']
 
         widgets = {
@@ -24,7 +24,7 @@ class ImgPostForm(ModelForm):
 
 class LinkPostForm(ModelForm):
     class Meta:
-        model = LinkPost
+        model = Post
         fields = ['link', 'title']
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
