@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
-from rabbit.forms import PostForm
+from rabbit.forms import PostForm, WarrenForm
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm
 from rabbit.models import Post
@@ -36,6 +36,20 @@ def register(request):
         form = UserCreationForm()
         context["form_register"] = form
         return render(request, 'registrationForm.html', context)
+
+
+def warren(request):
+    context = {}
+    if request.method == "POST":
+        form = WarrenForm(data=request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return JsonResponse(status='200', data={'status': 'ok'})
+        else:
+            context["form_warren"] = form
+            return render(request, 'postForm.html', context)
 
 
 def login_user(request):
