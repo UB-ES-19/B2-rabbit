@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  db:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /var/lib/postgresql/data
+    volumes: 
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - rabbit
+    restart: unless-stopped
+  web:
+    build: .
+    command: python rabbitapp/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/rabbitApp
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - rabbit
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - rabbit
+    restart: unless-stopped
+
+networks:
+  rabbit:
+    driver: bridge
+
+volumes:
+    pgadmin:
+    db-data:
+        driver: local
