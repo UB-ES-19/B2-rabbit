@@ -30,3 +30,15 @@ class LinkPostForm(ModelForm):
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
             'link': forms.TextInput(attrs={'placeholder': 'Write ur link', 'class': 'form-control'}),
         }
+
+class WarrenForm(ModelForm):
+    profile_img = forms.ImageField(required=False)
+    landscape_img = forms.ImageField(required=False)
+
+    class Meta:
+        model = Warren
+        fields = ['name', 'description', 'profile_img', 'landscape_img']
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Write a little description'}),
+        }
