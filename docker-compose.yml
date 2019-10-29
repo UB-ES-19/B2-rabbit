@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
   web:
     build: .
-    command: python rabbitapp/manage.py runserver 0.0.0.0:8000
+    command: python rabbitApp/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/rabbitApp
     ports:
