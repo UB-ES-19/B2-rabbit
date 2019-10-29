@@ -1,5 +1,6 @@
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -7,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from rabbit.forms import PostForm
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm
-from rabbit.models import Post
+from rabbit.models import Post, Warren
 
 
 # Create your views here.
@@ -121,3 +122,17 @@ def post_link(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
+
+
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        results = Warren.objects.filter(Q(name__contains=query) | Q(description__contains=query))
+    else:
+        return index(request)
+    context = {
+        'lastPost': results
+    }
+    return render(request, 'home.html', context)
+
+

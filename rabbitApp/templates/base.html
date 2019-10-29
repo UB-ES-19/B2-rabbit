@@ -60,6 +60,9 @@
         </ul>
 
     {% endif %}
+    <form action="{% url 'search' %}" method="get">
+        <input name="q" type="text" value="{{request.GET.q}}" placeholder="Search...">
+    </form>
 </nav>
 
 <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
