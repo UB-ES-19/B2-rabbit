@@ -18,9 +18,15 @@
   <a class="navbar-brand" href="{% url 'index' %}">
      <img src="static/img/rabbit-logo.png" class="img" height="30px">
   </a>
+    <form id="searchbar" action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0" style="width: 50%; margin-left: 20%">
+      <i class="fas fa-search" aria-hidden="true"></i>
+      <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+        aria-label="Search">
+        <input name="q" type="text" value="{{request.GET.q}}">
+    </form>
 
     {% if not request.user.is_authenticated %}
-        <ul class="navbar-nav ml-auto nav-flex-icons">
+        <ul class="navbar-nav ml-auto nav-flex-icons" >
             <li class="nav-item">
                 <button class="btn btn-sm my-0 btn-outline-primary" type="button" onclick="modal_login()">
                     Login
@@ -60,9 +66,7 @@
         </ul>
 
     {% endif %}
-    <form action="{% url 'search' %}" method="get">
-        <input name="q" type="text" value="{{request.GET.q}}" placeholder="Search...">
-    </form>
+
 </nav>
 
 <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -98,7 +102,7 @@
                         <div class="card-body">
                             <p class="card-text"> This is your personal rabbit front page.</p>
                             <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
-                            <button class="btn btn-primary btn-sm my-0 ml-3"" type="button">CREATE POST</button>
+                            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
                             </a>
                         </div>
                     </div>
@@ -138,6 +142,7 @@
 {% block more-scripts %}
 
 {% endblock %}
+
 
 <script type="text/javascript">
 
