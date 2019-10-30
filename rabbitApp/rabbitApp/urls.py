@@ -20,7 +20,7 @@ from django.urls import path
 from rabbit import views
 from rabbitApp import settings
 
-urlpatterns = [
+urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('register/', views.register, name='register'),
