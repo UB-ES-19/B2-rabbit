@@ -16,8 +16,8 @@ class Warren(models.Model):
     description = models.TextField(blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.PROTECT)
-    profile_img = models.ImageField(upload_to=get_image_filename_warren)
-    landscape_img = models.ImageField(upload_to=get_image_filename_warren)
+    profile_img = models.ImageField(upload_to=get_image_filename_warren, null=True)
+    landscape_img = models.ImageField(upload_to=get_image_filename_warren, null=True)
 
 
 class Post(models.Model):
