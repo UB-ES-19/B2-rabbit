@@ -35,6 +35,18 @@ def register(request):
         context["form_register"] = form
         return render(request, 'registrationForm.html', context)
 
+
+def warren(request, name):
+    context = {}
+    try:
+        w = Warren.objects.get(name=name)
+        context["warren"] = w
+        return render(request, 'warren_view.html', context)
+
+    except:
+        return redirect(index)
+
+
 @login_required()
 def create_warren(request):
     context = {}
@@ -44,7 +56,7 @@ def create_warren(request):
             post = form.save(commit=False)
             post.creator = request.user
             post.save()
-            #Redirect a la pagina del warren, no está hecha aún :)
+            # Redirect a la pagina del warren, no está hecha aún :)
             return redirect(index)
         else:
             context["form_warren"] = form
@@ -52,6 +64,7 @@ def create_warren(request):
     else:
         context["form_warren"] = WarrenForm()
         return render(request, 'warren.html', context)
+
 
 def login_user(request):
     context = {}
