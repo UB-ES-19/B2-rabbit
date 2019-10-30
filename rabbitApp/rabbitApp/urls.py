@@ -30,6 +30,8 @@ urlpatterns = [
     path('imgsubmit/', views.post_img, name='img_submit'),
     path('linksubmit/', views.post_link, name='link_submit'),
     path('warrensubmit', views.create_warren, name='warren_submit'),
+    path('w/<str:name>/', views.warren, name='warren'),
+    path('w/<str:name>', views.warren, name='warren'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

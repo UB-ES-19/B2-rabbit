@@ -16,7 +16,7 @@
 <body>
 <nav class="navbar navbar-light white" id="navbar_principal">
   <a class="navbar-brand" href="{% url 'index' %}">
-     <img src="static/img/rabbit-logo.png" class="img" height="30px">
+     <img src="{% static 'img/rabbit-logo.png' %}" class="img" height="30px">
   </a>
 
     {% if not request.user.is_authenticated %}
