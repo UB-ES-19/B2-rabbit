@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from rabbit.models import *
+from rabbit.models import Post
 from django import forms
 
 

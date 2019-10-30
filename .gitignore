@@ -1,3 +1,4 @@
+.DS_STORE
 postgres/
 rabbitApp/.idea/
 rabbitApp/__pycache__/
