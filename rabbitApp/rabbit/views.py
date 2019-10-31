@@ -148,6 +148,6 @@ def search(request):
     context = {
         'lastPost': results
     }
-    return render(request, 'home.html', context)
+    return render(request, 'search.html', context)
 
 
