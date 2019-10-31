@@ -1,5 +1,6 @@
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -43,6 +44,18 @@ def warren(request, name):
         context["warren"] = w
         return render(request, 'warren_view.html', context)
 
+    except:
+        return redirect(index)
+
+
+def profile(request, name):
+    context = {}
+    try:
+        r = User.objects.get(username=name)
+        posts = Post.objects.filter(user=r, warren=None).order_by('-creation_date')[:30]
+        context["user"] = r
+        context["posts"] = posts
+        return render(request, 'user_profile.html', context)
     except:
         return redirect(index)
 

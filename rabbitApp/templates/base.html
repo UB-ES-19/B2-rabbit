@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>{% block title %}Rabbit{% endblock %}</title>
-    <link rel = "icon" href = "static/img/rabbit-logo.png"
+    <link rel = "icon" href = "{% static 'img/rabbit-logo.png' %}"
         type = "image/x-icon">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.min.css' %}"/>
