@@ -1,4 +1,3 @@
-from itertools import chain
 
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -171,10 +170,10 @@ def search(request):
     if query:
         result_w = Warren.objects.filter(Q(name__contains=query) | Q(description__contains=query))
         result_u = User.objects.filter(Q(username__contains=query))
-        results = chain(result_w,result_u)
     else:
         return index(request)
     context = {
-        'lastPost': results
+        'lastPost': result_w,
+        'users': result_u
     }
     return render(request, 'home.html', context)
