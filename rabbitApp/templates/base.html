@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>{% block title %}Rabbit{% endblock %}</title>
-    <link rel = "icon" href = "static/img/rabbit-logo.png"
+    <link rel = "icon" href = "{% static 'img/rabbit-logo.png' %}"
         type = "image/x-icon">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.min.css' %}"/>
@@ -16,7 +16,7 @@
 <body>
 <nav class="navbar navbar-light white" id="navbar_principal">
   <a class="navbar-brand" href="{% url 'index' %}">
-     <img src="static/img/rabbit-logo.png" class="img" height="30px">
+     <img src="{% static 'img/rabbit-logo.png' %}" class="img" height="30px">
   </a>
 
     {% if not request.user.is_authenticated %}
