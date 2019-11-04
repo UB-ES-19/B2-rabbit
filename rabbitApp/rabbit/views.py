@@ -1,6 +1,7 @@
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -162,3 +163,14 @@ def post_link(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
+
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        results = Warren.objects.filter(Q(name__contains=query) | Q(description__contains=query))
+    else:
+        return index(request)
+    context = {
+        'lastPost': results
+    }
+    return render(request, 'search.html', context)

@@ -30,6 +30,7 @@ urlpatterns = [
     path('imgsubmit/', views.post_img, name='img_submit'),
     path('linksubmit/', views.post_link, name='link_submit'),
     path('warrensubmit', views.create_warren, name='warren_submit'),
+    path('search', views.search, name='search'),
     path('w/<str:name>/', views.warren, name='warren'),
     path('w/<str:name>', views.warren, name='warren'),
     path('r/<str:name>/', views.profile, name='profile'),
