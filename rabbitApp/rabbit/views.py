@@ -1,6 +1,6 @@
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.db.models import Q
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -36,6 +36,30 @@ def register(request):
         context["form_register"] = form
         return render(request, 'registrationForm.html', context)
 
+
+def warren(request, name):
+    context = {}
+    try:
+        w = Warren.objects.get(name=name)
+        context["warren"] = w
+        return render(request, 'warren_view.html', context)
+
+    except:
+        return redirect(index)
+
+
+def profile(request, name):
+    context = {}
+    try:
+        r = User.objects.get(username=name)
+        posts = Post.objects.filter(user=r, warren=None).order_by('-creation_date')[:30]
+        context["user"] = r
+        context["posts"] = posts
+        return render(request, 'user_profile.html', context)
+    except:
+        return redirect(index)
+
+
 @login_required()
 def create_warren(request):
     context = {}
@@ -45,7 +69,7 @@ def create_warren(request):
             post = form.save(commit=False)
             post.creator = request.user
             post.save()
-            #Redirect a la pagina del warren, no está hecha aún :)
+            # Redirect a la pagina del warren, no está hecha aún :)
             return redirect(index)
         else:
             context["form_warren"] = form
@@ -53,6 +77,7 @@ def create_warren(request):
     else:
         context["form_warren"] = WarrenForm()
         return render(request, 'warren.html', context)
+
 
 def login_user(request):
     context = {}
@@ -137,17 +162,3 @@ def post_link(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
-
-
-def search(request):
-    query = request.GET.get('q')
-    if query:
-        results = Warren.objects.filter(Q(name__contains=query) | Q(description__contains=query))
-    else:
-        return index(request)
-    context = {
-        'lastPost': results
-    }
-    return render(request, 'search.html', context)
-
-
