@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content-body %}
+    {% for post in lastPost %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-m-2">
+                        <img src= "\media\{{ post.profile_img }}"  alt="img" style="width: 70px" />
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#">
+                            <p class="card-text"><b>{{ post.name | safe }}</b></p>
+
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="card-text">{{ post.description | safe }}</p>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

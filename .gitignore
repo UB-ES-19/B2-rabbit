@@ -1,0 +1,9 @@
+postgres/
+rabbitApp/.idea/
+rabbitApp/__pycache__/
+rabbitApp/media/
+rabbitApp/rabbit/__pycache__/
+rabbitApp/rabbit/migrations/__pycache__/
+rabbitApp/rabbitApp/__pycache__/
+rabbitApp/rabbit/migrations/*.py
+rabbitApp/db.sqlite3
