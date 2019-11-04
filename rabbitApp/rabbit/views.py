@@ -167,10 +167,12 @@ def logout_user(request):
 def search(request):
     query = request.GET.get('q')
     if query:
-        results = Warren.objects.filter(Q(name__contains=query) | Q(description__contains=query))
+        result_w = Warren.objects.filter(Q(name__contains=query) | Q(description__contains=query))
+        result_u = User.objects.filter(Q(username__contains=query))
     else:
         return index(request)
     context = {
-        'lastPost': results
+        'lastPost': result_w,
+        'users': result_u
     }
     return render(request, 'search.html', context)
