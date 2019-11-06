@@ -7,10 +7,12 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-m-2">
-                        <img src= "\media\{{ post.profile_img }}"  alt="img" style="width: 70px" />
+                        {% if post.profile_img %}
+                        <img src= "{{ post.profile_img.url }}"  alt="img" style="width: 70px" />
+                        {% endif %}
                     </div>
                     <div class="col-md-4">
-                        <a href="#">
+                        <a href="{% url 'warren' post.name  %}">
                             <p class="card-text"><b> w/{{ post.name | safe }}</b></p>
 
                         </a>
@@ -27,8 +29,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-m-2">
-                        <a href="#">
-                            <p class="card-text"><b> u/{{ post.username | safe }}</b></p>
+                        <a href="{% url 'profile' post.username %}">
+                            <p class="card-text"><b> r/{{ post.username | safe }}</b></p>
 
                         </a>
                     </div>
