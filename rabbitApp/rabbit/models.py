@@ -29,3 +29,11 @@ class Post(models.Model):
     description = models.TextField(blank=True, null=True)
     link = models.URLField(null=True)
     img = models.ImageField(upload_to=get_image_filename_post, null=True)
+
+
+class Follower(models.Model):
+    follower = models.ForeignKey(User, related_name='following', on_delete=models.CASCADE)
+    following = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('follower', 'following')
