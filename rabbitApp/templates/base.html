@@ -16,14 +16,38 @@
 <body>
 <nav class="navbar navbar-light white" id="navbar_principal">
      <div class="row justify-content-start">
-          <div class="col-2">
+          <div class="col">
              <a class="navbar-brand" href="{% url 'index' %}">
                 <img src="{% static 'img/rabbit-logo.png' %}" class="img" height="30px">
              </a>
           </div>
+         <div class="dropdown text-center">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" style="width: 250px;padding: 5px" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fas fa-home"></i>
+                    Home
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" style="width: 250px">
+                    {% for warren in warrens %}
+                        <div class="card" >
+                            <div class="card-body" style="padding: 5px">
+
+                                <p class="card-text">
+                                    <img src= "{{ warren.profile_img.url }}" class="img-fluid" alt="img" style="width: 20px;height: 20px;border-radius: 50%"/>
+                                    <a href="{% url 'warren' warren.name  %}">w/{{ warren.name | safe }}</a>
+                                </p>
+                            </div>
+                        </div>
+
+
+                    {% endfor %}
+                </ul>
+    </div>
 
     </div>
-      <form id="searchbar" action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0" style="width: 50%">
+
+    <form id="searchbar" action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0" style="width: 50%">
               <i class="fas fa-search" aria-hidden="true"></i>
               <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
                 aria-label="Search"
@@ -66,7 +90,7 @@
                     aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user-circle mr-2"></i> {{ request.user.username }}
                     </a>
-                    <div class="dropdown-menu dropdown-primary">
+                    <div class="dropdown-menu ">
                          <a class="dropdown-item" href="/logout#">Log out</a>
                      </div>
                 </li>
