@@ -176,6 +176,10 @@ def search(request):
         'lastPost': result_w,
         'users': result_u
     }
+
+    if request.user.is_authenticated:
+        following = get_following(request.user)
+        context['following'] = [user for user in result_u if following.filter(following=user)]
     return render(request, 'search.html', context)
 
 
@@ -195,3 +199,7 @@ def follow(request):
             return JsonResponse(status='200', data={'status': 'ok'})
         except Exception as ex:
             return JsonResponse(status='200', data={'status': 'error', 'message': str(ex)})
+
+
+def get_following(user):
+    return user.following.all()

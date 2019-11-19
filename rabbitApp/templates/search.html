@@ -33,7 +33,11 @@
                             <p class="card-text"><b> r/{{ u.username | safe }}</b></p>
                             <form id="{{ u.username }}form">
                                 {% csrf_token %}
-                                <a class="btn btn-outline-primary" onclick="follow('{{ u.username }}');">Follow</a>
+                                {% if u in following %}
+                                    <a class="btn btn-primary" onclick="follow('{{ u.username }}');">UnFollow</a>
+                                {% else %}
+                                    <a class="btn btn-outline-primary" onclick="follow('{{ u.username }}');">Follow</a>
+                                {% endif %}
                             </form>
                         </a>
                     </div>
