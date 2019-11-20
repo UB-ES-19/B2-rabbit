@@ -21,21 +21,21 @@
                 <img src="{% static 'img/rabbit-logo.png' %}" class="img" height="30px">
              </a>
           </div>
-         <div class="dropdown text-center">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" style="width: 250px;padding: 5px" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item dropdown ">
+                <a class="my-2 dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" style="width: 250px">
                     <i class="fas fa-home"></i>
                     Home
-                    <span class="caret"></span>
-                </button>
-
+                    <i class="caret " style="margin-left: 150px"></i>
+                </a>
                 <ul class="dropdown-menu" style="width: 250px">
                     {% for warren in warrens %}
                         <div class="card" >
-                            <div class="card-body" style="padding: 5px">
-
-                                <p class="card-text">
+                             <div class="card-body" style="padding: 5px">
+                                 <p class="card-text">
                                     <img src= "{{ warren.profile_img.url }}" class="img-fluid" alt="img" style="width: 20px;height: 20px;border-radius: 50%"/>
-                                    <a href="{% url 'warren' warren.name  %}">w/{{ warren.name | safe }}</a>
+                                    w/{{ warren.name | safe }}
                                 </p>
                             </div>
                         </div>
@@ -43,7 +43,8 @@
 
                     {% endfor %}
                 </ul>
-    </div>
+            </li>
+        </ul>
 
     </div>
 
