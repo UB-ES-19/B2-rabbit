@@ -19,6 +19,9 @@ class Warren(models.Model):
     profile_img = models.ImageField(upload_to=get_image_filename_warren, null=True)
     landscape_img = models.ImageField(upload_to=get_image_filename_warren, null=True)
 
+    def __str__(self):
+        return 'w/' + self.name
+
 
 class Post(models.Model):
     id = models.AutoField(primary_key=True)

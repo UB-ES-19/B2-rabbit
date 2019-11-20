@@ -4,18 +4,22 @@ from django import forms
 
 
 class PostForm(ModelForm):
+    warren = forms.ModelChoiceField(Warren.objects.all())
+
     class Meta:
         model = Post
-        fields = ['description', 'title']
+        fields = ['description', 'title', 'warren']
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
         }
 
 
 class ImgPostForm(ModelForm):
+    warren = forms.ModelChoiceField(Warren.objects.all())
+
     class Meta:
         model = Post
-        fields = ['img', 'title']
+        fields = ['img', 'title', 'warren']
 
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
@@ -23,9 +27,11 @@ class ImgPostForm(ModelForm):
 
 
 class LinkPostForm(ModelForm):
+    warren = forms.ModelChoiceField(Warren.objects.all())
+
     class Meta:
         model = Post
-        fields = ['link', 'title']
+        fields = ['link', 'title', 'warren']
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title'}),
             'link': forms.TextInput(attrs={'placeholder': 'Write ur link', 'class': 'form-control'}),

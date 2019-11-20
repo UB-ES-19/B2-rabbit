@@ -43,6 +43,7 @@ def warren(request, name):
     try:
         w = Warren.objects.get(name=name)
         context["warren"] = w
+        context["posts"] = Post.objects.filter(warren=w.name).order_by('-creation_date')[:30]
         return render(request, 'warren_view.html', context)
 
     except:
