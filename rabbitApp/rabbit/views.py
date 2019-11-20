@@ -164,6 +164,7 @@ def logout_user(request):
     logout(request)
     return redirect('/')
 
+
 def search(request):
     query = request.GET.get('q')
     if query:
