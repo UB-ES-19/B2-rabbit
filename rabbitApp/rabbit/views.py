@@ -183,7 +183,8 @@ def search(request):
 def delete(request, id):
 
     post = get_object_or_404(Post, id=id)
-    if request.method == "POST":
+    if request.method == "POST" and request.user.is_authenticated\
+            and request.user.id == post.user.id:
         post.delete()
         return redirect('../../')
     context = {
