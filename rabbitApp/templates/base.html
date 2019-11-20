@@ -21,17 +21,37 @@
                 <img src="{% static 'img/rabbit-logo.png' %}" class="img" height="30px">
              </a>
           </div>
-
+         <div class="col-5">
+             <h2 class="black-text">rabbit</h2>
+         </div>
+         <div class="col-5 my-2">
+             <a class="nav-item dropdown">
+                    <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                        Popular
+                    </a>
+                    <div class="dropdown-menu dropdown-primary">
+                         <a class="dropdown-item" onclick="modal_register()"><i class="fas fa-user-plus"></i>  Register</a>
+                         <a class="dropdown-item" onclick="modal_login()"><i class="fas fa-sign-in-alt"></i> Log in</a>
+                     </div>
+                </a>
+         </div>
     </div>
-      <form id="searchbar" action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0" style="width: 50%">
-              <i class="fas fa-search" aria-hidden="true"></i>
-              <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
-                aria-label="Search"
-                name="q" type="text" value="{{request.GET.q}}">
-      </form>
+    <div class="justify-content-center">
+          <form id="searchbar" action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0">
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
+                  </div>
+                  <input class="form-control form-control-sm" placeholder="Search"
+                    aria-label="Search" style="width: 300px;"
+                    name="q" type="text" value="{{request.GET.q}}">
+              </div>
+          </form>
+    </div>
     <div class="row justify-content-end">
 
-      <div class="col-md-10">
+      <div class="col">
            {% if not request.user.is_authenticated %}
             <ul class="navbar-nav ml-auto nav-flex-icons" >
                 <li class="nav-item">
