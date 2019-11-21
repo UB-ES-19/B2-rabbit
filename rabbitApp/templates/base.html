@@ -31,12 +31,24 @@
                         Popular
                     </a>
                     <div class="dropdown-menu dropdown-primary">
+                        <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">MY COMMUNITIES</li>
                         {% for warren in warrens %}
                             <a class="dropdown-item" href="{% url 'warren' warren.name  %}" >
                                 <img class="img-fluid" src="{{ warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
                                 w/{{ warren.name | safe }}
                             </a>
                         {% endfor %}
+                        <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">OTHER</li>
+                        <li class="nav-item" style="margin-bottom: 10px">
+                            <a  class="my-1" href="{% url 'submit' %}" ><i class="fas fa-pen cyan-text"></i>
+                                Create Post
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-bottom: 10px">
+                            <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-pen cyan-text"></i>
+                                Create Warren
+                            </a>
+                        </li>
                      </div>
                 </a>
          </div>
