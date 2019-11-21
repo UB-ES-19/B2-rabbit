@@ -31,8 +31,12 @@
                         Popular
                     </a>
                     <div class="dropdown-menu dropdown-primary">
-                         <a class="dropdown-item" onclick="modal_register()"><i class="fas fa-user-plus"></i>  Register</a>
-                         <a class="dropdown-item" onclick="modal_login()"><i class="fas fa-sign-in-alt"></i> Log in</a>
+                        {% for warren in warrens %}
+                            <a class="dropdown-item" href="{% url 'warren' warren.name  %}" >
+                                <img class="img-fluid" src="{{ warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
+                                w/{{ warren.name | safe }}
+                            </a>
+                        {% endfor %}
                      </div>
                 </a>
          </div>

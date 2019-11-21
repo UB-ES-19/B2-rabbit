@@ -14,8 +14,10 @@ from rabbit.models import Post, Warren
 
 def index(request):
     lastPost = Post.objects.order_by('-creation_date')[:30]
+    warrens_ = Warren.objects.all()
     context = {
-        'lastPost': lastPost
+        'lastPost': lastPost,
+        'warrens': warrens_
     }
     return render(request, 'home.html', context)
 
