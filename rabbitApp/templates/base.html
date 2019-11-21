@@ -67,6 +67,7 @@
                         <i class="fas fa-user-circle mr-2"></i> {{ request.user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-primary">
+                         <a class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="fas fa-user"></i> My profile</a>
                          <a class="dropdown-item" href="/logout#">Log out</a>
                      </div>
                 </li>
