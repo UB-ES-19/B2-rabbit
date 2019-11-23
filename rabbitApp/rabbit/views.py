@@ -67,11 +67,10 @@ def create_warren(request):
     if request.method == "POST":
         form = WarrenForm(data=request.POST, files=request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.creator = request.user
-            post.save()
-            # Redirect a la pagina del warren, no está hecha aún :)
-            return redirect(index)
+            w = form.save(commit=False)
+            w.creator = request.user
+            w.save()
+            return redirect(warren, w.name)
         else:
             context["form_warren"] = form
             return render(request, 'warren.html', context)
@@ -176,7 +175,6 @@ def search(request):
         'lastPost': result_w,
         'users': result_u
     }
-
     if request.user.is_authenticated:
         following = get_following(request.user)
         context['following'] = [user for user in result_u if following.filter(following=user)]
