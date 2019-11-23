@@ -183,6 +183,7 @@ def search(request):
         context['following'] = [user for user in result_u if following.filter(following=user)]
     return render(request, 'search.html', context)
 
+
 @login_required()
 def delete(request, id):
 
@@ -195,7 +196,6 @@ def delete(request, id):
         "post": post
     }
     return render(request, 'deletePost.html', context)
-
 
 
 @login_required()
@@ -221,10 +221,7 @@ def get_following(user):
 
 
 def post_view(request, id_post):
-    try:
-        post = Post.objects.get(id=id_post)
-    except:
-        return redirect(index)
+    post = get_object_or_404(Post, id=id_post)
     context = {
         'post': post
     }
