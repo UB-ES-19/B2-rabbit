@@ -35,6 +35,7 @@ urlpatterns = [
     path('w/<str:name>', views.warren, name='warren'),
     path('r/<str:name>/', views.profile, name='profile'),
     path('r/<str:name>', views.profile, name='profile'),
+    path('delete/<str:id>',views.delete, name='delete'),
     path('follow/', views.follow, name='follow'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
