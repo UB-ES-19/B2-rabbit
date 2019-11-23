@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm
-from rabbit.models import Post, Warren
+from rabbit.models import Post, Warren, Follower
 
 
 # Create your views here.
@@ -175,4 +175,29 @@ def search(request):
         'lastPost': result_w,
         'users': result_u
     }
+    if request.user.is_authenticated:
+        following = get_following(request.user)
+        context['following'] = [user for user in result_u if following.filter(following=user)]
     return render(request, 'search.html', context)
+
+
+@login_required()
+def follow(request):
+    if request.method == "POST":
+        try:
+            user1 = User.objects.get(username=request.POST["username"])
+            user = User.objects.get(username=request.user.username)
+            follower = user.following.filter(following=user1)
+            if user == user1:
+                return JsonResponse(status='200', data={'status': 'error', 'message': 'You can not follow yourself'})
+            if follower:
+                follower.delete()
+            else:
+                user.following.add(Follower(following=user1), bulk=False)
+            return JsonResponse(status='200', data={'status': 'ok'})
+        except Exception as ex:
+            return JsonResponse(status='200', data={'status': 'error', 'message': str(ex)})
+
+
+def get_following(user):
+    return user.following.all()
