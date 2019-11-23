@@ -2,8 +2,8 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm
@@ -14,8 +14,10 @@ from rabbit.models import Post, Warren, Follower
 
 def index(request):
     lastPost = Post.objects.order_by('-creation_date')[:30]
+    warrens = Warren.objects.all()
     context = {
-        'lastPost': lastPost
+        'lastPost': lastPost,
+        'warrens': warrens
     }
     return render(request, 'home.html', context)
 
@@ -183,6 +185,20 @@ def search(request):
 
 
 @login_required()
+def delete(request, id):
+
+    post = get_object_or_404(Post, id=id)
+    if request.method == "POST" and request.user.is_authenticated\
+            and request.user.id == post.user.id:
+        post.delete()
+        return redirect('../../')
+    context = {
+        "post": post
+    }
+    return render(request, 'deletePost.html', context)
+
+
+@login_required()
 def follow(request):
     if request.method == "POST":
         try:
@@ -202,3 +218,11 @@ def follow(request):
 
 def get_following(user):
     return user.following.all()
+
+
+def post_view(request, id_post):
+    post = get_object_or_404(Post, id=id_post)
+    context = {
+        'post': post
+    }
+    return render(request, 'post.html', context)

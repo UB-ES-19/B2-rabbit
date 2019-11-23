@@ -16,6 +16,9 @@
                     <a href={{ post.link}}>{{ post.link }}</a>
                 {% endif %}
             </div>
+        <a class="my-1" href="{% url 'delete' post.id %}">
+            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">delete</button>
+        </a>
         </div>
     {% endfor %}
 {% endblock %}
