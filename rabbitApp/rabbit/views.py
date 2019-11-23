@@ -55,7 +55,7 @@ def warren(request, name):
 
 
 def profile(request, name):
-    context = {}
+    context = {'warrens': Warren.objects.all()}
     try:
         r = User.objects.get(username=name)
         posts = Post.objects.filter(user=r, warren=None).order_by('-creation_date')[:30]
@@ -178,7 +178,8 @@ def search(request):
         return index(request)
     context = {
         'lastPost': result_w,
-        'users': result_u
+        'users': result_u,
+        'warrens': Warren.objects.all()
     }
     if request.user.is_authenticated:
         following = get_following(request.user)
@@ -237,7 +238,9 @@ def post_view(request, id_post):
     context = {
         'post': post,
         'post_comments': root,
-        'comment_form': CommentForm()
+        'comment_form': CommentForm(),
+        'warrens': Warren.objects.all()
+
     }
     return render(request, 'post.html', context)
 
