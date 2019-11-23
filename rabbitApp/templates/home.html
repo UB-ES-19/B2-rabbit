@@ -5,7 +5,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <p class="card-text text-muted h6">Posted by <b>{{ post.user }}</b> at {{ post.creation_date }} </p>
-                <h2 class="card-title">{{ post.title | safe }}</h2>
+                <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
                 {% if post.description %}
                     <p class="card-text">{{ post.description | safe }}</p>
                 {% elif post.img %}

@@ -36,6 +36,8 @@ urlpatterns = [
     path('r/<str:name>/', views.profile, name='profile'),
     path('r/<str:name>', views.profile, name='profile'),
     path('follow/', views.follow, name='follow'),
+    path('p/<int:id_post>/', views.post_view, name='post'),
+    path('p/<int:id_post>', views.post_view, name='post'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

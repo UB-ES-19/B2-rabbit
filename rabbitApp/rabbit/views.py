@@ -202,3 +202,14 @@ def follow(request):
 
 def get_following(user):
     return user.following.all()
+
+
+def post_view(request, id_post):
+    try:
+        post = Post.objects.get(id=id_post)
+    except:
+        return redirect(index)
+    context = {
+        'post': post
+    }
+    return render(request, 'post.html', context)
