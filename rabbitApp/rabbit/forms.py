@@ -37,6 +37,7 @@ class LinkPostForm(ModelForm):
             'link': forms.TextInput(attrs={'placeholder': 'Write ur link', 'class': 'form-control'}),
         }
 
+
 class WarrenForm(ModelForm):
     profile_img = forms.ImageField(required=False)
     landscape_img = forms.ImageField(required=False)
