@@ -34,6 +34,14 @@ class Post(models.Model):
     img = models.ImageField(upload_to=get_image_filename_post, null=True)
 
 
+class Comment(models.Model):
+    text = models.TextField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='children')
+
+
 class Follower(models.Model):
     follower = models.ForeignKey(User, related_name='following', on_delete=models.CASCADE)
     following = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE)

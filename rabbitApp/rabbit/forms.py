@@ -49,3 +49,10 @@ class WarrenForm(ModelForm):
             'name': forms.TextInput(),
             'description': forms.Textarea(attrs={'rows': '5'}),
         }
+
+
+class CommentForm(ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['text']

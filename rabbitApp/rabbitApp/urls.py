@@ -37,6 +37,10 @@ urlpatterns = [
     path('r/<str:name>', views.profile, name='profile'),
     path('delete/<str:id>',views.delete, name='delete'),
     path('follow/', views.follow, name='follow'),
+    path('p/<int:id_post>/', views.post_view, name='post'),
+    path('p/<int:id_post>', views.post_view, name='post'),
+    path('comment/<int:id_post>/', views.comment, name='comment'),
+    path('comment/<int:id_post>/<int:id_comment>', views.comment, name='comment'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

@@ -6,11 +6,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
-from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm
-from rabbit.models import Post, Warren, Follower
+from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm, CommentForm
+from rabbit.models import Post, Warren, Follower, Comment
 
 
 # Create your views here.
+from rabbit.tree import Node
+
 
 def index(request):
     lastPost = Post.objects.order_by('-creation_date')[:30]
@@ -53,7 +55,7 @@ def warren(request, name):
 
 
 def profile(request, name):
-    context = {}
+    context = {'warrens': Warren.objects.all()}
     try:
         r = User.objects.get(username=name)
         posts = Post.objects.filter(user=r, warren=None).order_by('-creation_date')[:30]
@@ -176,12 +178,14 @@ def search(request):
         return index(request)
     context = {
         'lastPost': result_w,
-        'users': result_u
+        'users': result_u,
+        'warrens': Warren.objects.all()
     }
     if request.user.is_authenticated:
         following = get_following(request.user)
         context['following'] = [user for user in result_u if following.filter(following=user)]
     return render(request, 'search.html', context)
+
 
 @login_required()
 def delete(request, id):
@@ -195,7 +199,6 @@ def delete(request, id):
         "post": post
     }
     return render(request, 'deletePost.html', context)
-
 
 
 @login_required()
@@ -218,3 +221,43 @@ def follow(request):
 
 def get_following(user):
     return user.following.all()
+
+
+def make_tree(all_comments, c, parent):
+    n = Node(c, parent)
+    for com in all_comments.filter(parent=c):
+        make_tree(all_comments, com, n)
+
+
+def post_view(request, id_post):
+    post = get_object_or_404(Post, id=id_post)
+    all_comments = post.comments.all()
+    root = Node(None, None)
+    for c in all_comments.filter(parent=None):
+        make_tree(all_comments, c, root)
+    context = {
+        'post': post,
+        'post_comments': root,
+        'comment_form': CommentForm(),
+        'warrens': Warren.objects.all()
+
+    }
+    return render(request, 'post.html', context)
+
+
+@login_required()
+def comment(request, id_post, id_comment = None):
+    post = get_object_or_404(Post, id=id_post)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            com = form.save(commit=False)
+            com.user = request.user
+            com.post = post
+            if id_comment:
+                parent = get_object_or_404(Comment, id=id_comment)
+                com.parent = parent
+            com.save()
+            return redirect(post_view, id_post=id_post)
+        return JsonResponse(status='200', data={'status': 'error', 'message': form.errors})
+    return JsonResponse(status='200', data={'status': 'error', 'message': 'only post page'})

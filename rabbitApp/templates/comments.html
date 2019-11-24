@@ -1,0 +1,16 @@
+<li>
+    {{ node.value.text }}
+
+    <form action="{% url 'comment' post.id node.value.id  %}" method="post">
+        {% csrf_token %}
+        {{ comment_form }}
+        <button class="btn btn-primary" type="submit">Comment</button>
+    </form>
+    <ul>
+    {% for ch in node.children %}
+        {%with node=ch template_name="comments.html" %}
+           <div style="width: 5px"></div> {%include template_name%}
+        {%endwith%}
+    {% endfor %}
+    </ul>
+</li>
