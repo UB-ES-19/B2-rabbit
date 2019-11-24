@@ -1,6 +1,8 @@
 <li>
-    {{ node.value.text }}
-
+    <p>Posted by <a style="color:#000000" href="/r/{{node.value.user}}"><b>{{node.value.user}}</b></a> at {{node.value.creation_date}}</p>
+    <p>{{ node.value.text }}</p>
+    {% if request.user.is_authenticated %}
+    <button class="btn btn-primary" type="reply">Reply comment</button>
     <form action="{% url 'comment' post.id node.value.id  %}" method="post">
         {% csrf_token %}
         {{ comment_form }}
@@ -13,4 +15,5 @@
         {%endwith%}
     {% endfor %}
     </ul>
+    {% endif %}
 </li>
