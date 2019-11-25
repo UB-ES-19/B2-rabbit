@@ -56,3 +56,6 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'form-control','rows': '5','placeholder': 'What are your thoughts?'}),
+        }

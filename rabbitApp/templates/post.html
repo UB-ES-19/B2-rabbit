@@ -3,7 +3,7 @@
 {% block content-body %}
     <div class="card mb-4">
         <div class="card-body">
-            <p class="card-text text-muted h6">Posted by <a style="color:#000000" href="/r/{{post.user}}"><b>r/{{post.user}}</b></a> at {{ post.creation_date }} </p>
+            <p class="card-text text-muted h6">Posted by <a class="card-text text-muted h6" href="/r/{{post.user}}"><b>r/{{post.user}}</b></a> at {{ post.creation_date }} </p>
             <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
             {% if post.description %}
                 <p class="card-text">{{ post.description | safe }}</p>
@@ -16,33 +16,42 @@
     </div>
     {% if not request.user.is_authenticated %}
         <div class="card mb-4">
-        <div class="card-body">
+            <div class="card-body">
             <span>Share your thougths. Log in or Sign up...</span>
-            <div class="float-right">
-            <button class="btn btn-sm my-0 btn-outline-primary" type="button" onclick="modal_login()">Login</button>
-            <button class="btn btn-primary btn-sm my-0 ml-3" type="button" onclick="modal_register()">Sign up</button>
+                <div class="float-right">
+                <button class="btn btn-sm my-0 btn-outline-primary" type="button" onclick="modal_login()">Login</button>
+                <button class="btn btn-primary btn-sm my-0 ml-3" type="button" onclick="modal_register()">Sign up</button>
+                </div>
             </div>
-         </div>
         </div>
     {% endif %}
+
     {% if request.user.is_authenticated %}
-    <div class="card-footer">
-        <p>Share your thoughts as <a style="color:#000000" href="/r/{{user.username}}"><b>{{user.username}}</b></a></p>
-        <form action="{% url 'comment' post.id %}" method="post">
-            {% csrf_token %}
-            {{ comment_form }}
-            <button class="btn btn-primary" type="submit">Comment</button>
-        </form>
-    </div>
+        <div class="card mb-4">
+            <div class="card-body">
+            <p>Comment as <a class="card-text text-muted h6" href="{{user.username}}"><b>{{user.username}}</b></a></p>
+            <form action="{% url 'comment' post.id %}" method="post">
+                {% csrf_token %}
+                <div class="card mb-4">
+                {{ comment_form.text}}
+                </div>
+
+                <div class="float-right">
+                    <button class="btn btn-sm my-0 btn-outline-primary waves-effect waves-light" type="reset" onClick="comment_form.text.reset()">CANCEL</button>
+                    <button class="btn btn-primary btn-sm my-0 ml-3" type="submit">COMMENT</button>
+                </div>
+            </form>
+            </div>
+        </div>
     {%  endif %}
-    <ul>
 
-
-    {% for node in post_comments.children %}
-        {% include 'comments.html' %}
-    {% endfor %}
-    </ul>
-
+        <div class="container" style="margin-top:1em;">
+            <ul class="list-group">
+            {% for node in post_comments.children %}
+                {% include 'comments.html' %}
+            {% endfor %}
+            </ul>
+        </div>
 
 {% endblock %}
 
