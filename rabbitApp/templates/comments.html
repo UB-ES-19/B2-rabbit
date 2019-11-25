@@ -8,6 +8,7 @@
         {{ comment_form }}
         <button class="btn btn-primary" type="submit">Comment</button>
     </form>
+    {% endif %}
     <ul>
     {% for ch in node.children %}
         {%with node=ch template_name="comments.html" %}
@@ -15,5 +16,4 @@
         {%endwith%}
     {% endfor %}
     </ul>
-    {% endif %}
 </li>
