@@ -48,3 +48,11 @@ class Follower(models.Model):
 
     class Meta:
         unique_together = ('follower', 'following')
+
+
+class Suscribe(models.Model):
+    suscriber = models.ForeignKey(User, related_name='suscribing', on_delete=models.CASCADE)
+    suscribing = models.ForeignKey(Warren, related_name='suscriber', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('suscribing', 'suscriber')
