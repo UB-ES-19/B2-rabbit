@@ -2,22 +2,24 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
-from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm
-from rabbit.models import Post, Warren
+from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm, CommentForm
+from rabbit.models import Post, Warren, Follower, Comment
 
 
 # Create your views here.
+from rabbit.tree import Node
+
 
 def index(request):
     lastPost = Post.objects.order_by('-creation_date')[:30]
-    warrens_ = Warren.objects.all()
+    warrens = Warren.objects.all()
     context = {
         'lastPost': lastPost,
-        'warrens': warrens_
+        'warrens': warrens
     }
     return render(request, 'home.html', context)
 
@@ -45,6 +47,7 @@ def warren(request, name):
     try:
         w = Warren.objects.get(name=name)
         context["warren"] = w
+        context["posts"] = Post.objects.filter(warren=w.name).order_by('-creation_date')[:30]
         return render(request, 'warren_view.html', context)
 
     except:
@@ -52,7 +55,7 @@ def warren(request, name):
 
 
 def profile(request, name):
-    context = {}
+    context = {'warrens': Warren.objects.all()}
     try:
         r = User.objects.get(username=name)
         posts = Post.objects.filter(user=r, warren=None).order_by('-creation_date')[:30]
@@ -69,11 +72,10 @@ def create_warren(request):
     if request.method == "POST":
         form = WarrenForm(data=request.POST, files=request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.creator = request.user
-            post.save()
-            # Redirect a la pagina del warren, no está hecha aún :)
-            return redirect(index)
+            w = form.save(commit=False)
+            w.creator = request.user
+            w.save()
+            return redirect(warren, w.name)
         else:
             context["form_warren"] = form
             return render(request, 'warren.html', context)

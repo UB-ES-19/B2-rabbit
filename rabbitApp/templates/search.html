@@ -14,7 +14,6 @@
                     <div class="col-md-4">
                         <a href="{% url 'warren' post.name  %}">
                             <p class="card-text"><b> w/{{ post.name | safe }}</b></p>
-
                         </a>
                     </div>
                     <div class="col-md-6">
@@ -24,14 +23,21 @@
             </div>
         </div>
     {% endfor %}
-     {% for post in users %}
+     {% for u in users %}
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
                     <div class="col-m-2">
-                        <a href="{% url 'profile' post.username %}">
-                            <p class="card-text"><b> r/{{ post.username | safe }}</b></p>
-
+                        <a href="{% url 'profile' u.username %}">
+                            <p class="card-text"><b> r/{{ u.username | safe }}</b></p>
+                            <form id="{{ u.username }}form">
+                                {% csrf_token %}
+                                {% if u in following %}
+                                    <a class="btn btn-primary" onclick="follow('{{ u.username }}');">UnFollow</a>
+                                {% else %}
+                                    <a class="btn btn-outline-primary" onclick="follow('{{ u.username }}');">Follow</a>
+                                {% endif %}
+                            </form>
                         </a>
                     </div>
 
@@ -39,4 +45,23 @@
             </div>
         </div>
     {% endfor %}
+{% endblock %}
+{% block more-scripts %}
+    <script>
+    var follow = (username) => {
+        let data = $('#' + username + 'form').serialize() + "&username=" + username;
+             $.ajax({
+                method: 'POST',
+                url: "{% url 'follow' %}",
+                data: data,
+                success: (data) => {
+                    if (data.status === 'ok') {
+
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        };
+    </script>
 {% endblock %}

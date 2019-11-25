@@ -1,4 +1,21 @@
 {% extends 'base.html' %}
 {% block content-body %}
 {{ warren.name }}
+    {% for post in posts %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="card-text text-muted h6">Posted by <b>{{ post.user }}</b> at {{ post.creation_date }} </p>
+                <h2 class="card-title">{{ post.title | safe }}</h2>
+                {% if post.description %}
+                    <p class="card-text">{{ post.description | safe }}</p>
+                {% endif %}
+                {% if post.img %}
+                    <img src= "\media\{{ post.img }}" class="img-fluid" alt="img" />
+                {% endif %}
+                {% if post.link %}
+                    <a href={{ post.link}}>{{ post.link }}</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

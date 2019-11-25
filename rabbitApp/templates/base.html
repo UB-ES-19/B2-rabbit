@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{% static 'css/style.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/rabbitStyles.css' %}"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/select2.min.css' %}"/>
+
     {% block links %} {% endblock %}
 </head>
 <body>
@@ -34,8 +36,11 @@
                         <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">MY COMMUNITIES</li>
                         {% for warren in warrens %}
                             <a class="dropdown-item" href="{% url 'warren' warren.name  %}" >
+                            {% if warren.profile_img %}
                                 <img class="img-fluid" src="{{ warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
-                                w/{{ warren.name | safe }}
+                            {% endif %}
+                            w/{{ warren.name | safe }}
+
                             </a>
                         {% endfor %}
                         <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">OTHER</li>
@@ -180,6 +185,7 @@
 
 </body>
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/select2.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/mdb.min.js' %}"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
