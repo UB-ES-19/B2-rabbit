@@ -178,6 +178,86 @@ def search(request):
         return index(request)
     context = {
         'lastPost': result_w,
-        'users': result_u
+        'users': result_u,
+        'warrens': Warren.objects.all()
     }
+    if request.user.is_authenticated:
+        following = get_following(request.user)
+        context['following'] = [user for user in result_u if following.filter(following=user)]
     return render(request, 'search.html', context)
+
+
+@login_required()
+def delete(request, id):
+
+    post = get_object_or_404(Post, id=id)
+    if request.method == "POST" and request.user.is_authenticated\
+            and request.user.id == post.user.id:
+        post.delete()
+        return redirect('../../')
+    context = {
+        "post": post
+    }
+    return render(request, 'deletePost.html', context)
+
+
+@login_required()
+def follow(request):
+    if request.method == "POST":
+        try:
+            user1 = User.objects.get(username=request.POST["username"])
+            user = User.objects.get(username=request.user.username)
+            follower = user.following.filter(following=user1)
+            if user == user1:
+                return JsonResponse(status='200', data={'status': 'error', 'message': 'You can not follow yourself'})
+            if follower:
+                follower.delete()
+            else:
+                user.following.add(Follower(following=user1), bulk=False)
+            return JsonResponse(status='200', data={'status': 'ok'})
+        except Exception as ex:
+            return JsonResponse(status='200', data={'status': 'error', 'message': str(ex)})
+
+
+def get_following(user):
+    return user.following.all()
+
+
+def make_tree(all_comments, c, parent):
+    n = Node(c, parent)
+    for com in all_comments.filter(parent=c):
+        make_tree(all_comments, com, n)
+
+
+def post_view(request, id_post):
+    post = get_object_or_404(Post, id=id_post)
+    all_comments = post.comments.all()
+    root = Node(None, None)
+    for c in all_comments.filter(parent=None):
+        make_tree(all_comments, c, root)
+    context = {
+        'post': post,
+        'post_comments': root,
+        'comment_form': CommentForm(),
+        'warrens': Warren.objects.all()
+
+    }
+    return render(request, 'post.html', context)
+
+
+@login_required()
+def comment(request, id_post, id_comment = None):
+    post = get_object_or_404(Post, id=id_post)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            com = form.save(commit=False)
+            com.user = request.user
+            com.post = post
+            if id_comment:
+                parent = get_object_or_404(Comment, id=id_comment)
+                com.parent = parent
+            com.save()
+            return redirect(post_view, id_post=id_post)
+        return JsonResponse(status='200', data={'status': 'error', 'message': form.errors})
+    return JsonResponse(status='200', data={'status': 'error', 'message': 'only post page'})
