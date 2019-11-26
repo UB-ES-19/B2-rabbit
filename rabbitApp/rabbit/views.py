@@ -200,11 +200,11 @@ def delete(request, id):
     if request.method == "POST" and request.user.is_authenticated\
             and request.user.id == post.user.id:
         post.delete()
-        return redirect('../../')
+        return JsonResponse(status='200', data={'status': 'ok'})
     context = {
         "post": post
     }
-    return render(request, 'deletePost.html', context)
+    return JsonResponse(status='200', data={'status': 'error', 'message': 'You can not delete this post.'})
 
 
 @login_required()
