@@ -3,16 +3,18 @@
 {% block content-body %}
     <div class="card mb-4">
             <div class="card-body">
-            <p class="card-text text-muted h6">
-                <a  class="card-text text-muted h6" href="{% url 'warren' post.warren.name %}">
-                    {% if post.warren.profile_img %}
-                    <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
-                    {% endif %}
-                    <b>w/{{ post.warren.name }}</b>
-                </a>
-                    • Posted by <a class="card-text text-muted h6" href="{% url 'profile' post.user %}"><b>r/{{ post.user }}</b></a>
-                    at {{ post.creation_date }}
-            </p>
+            {% if post.warren %}
+                <p class="card-text text-muted h6">
+                    <a  class="card-text text-muted h6" href="{% url 'warren' post.warren.name %}">
+                        {% if post.warren.profile_img %}
+                        <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
+                        {% endif %}
+                        <b>w/{{ post.warren.name }}</b>
+                    </a>
+                        • Posted by <a class="card-text text-muted h6" href="{% url 'profile' post.user %}"><b>r/{{ post.user }}</b></a>
+                        at {{ post.creation_date }}
+                </p>
+            {% endif %}
                 <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
                 {% if post.description %}
                     <p class="card-text">{{ post.description | safe }}</p>
@@ -68,12 +70,18 @@
 {% block sidebar %}
     <!-- Sidebar Widgets Column -->
     <div class="card my-4">
+    {% if post.warren %}
          <a  class="card-header text-muted h5" href="{% url 'warren' post.warren.name %}">
             {% if post.warren.profile_img %}
             <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
             {% endif %}
             <b>w/{{ post.warren.name }}</b>
          </a>
+    {% else %}
+        <a  class="card-header text-muted h5" href="{% url 'profile' post.user.username %}">
+            <b>r/{{ post.user.username }}</b>
+         </a>
+    {% endif %}
         <div class="card my-4">
             <div class="card-body">
                 <p class="card-text">Welcome to <b>w/{{ post.warren.name }}</b>.
