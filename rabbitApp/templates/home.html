@@ -5,12 +5,14 @@
         <div class="card mb-4">
             <div class="card-body">
             <p class="card-text text-muted h6">
+            {% if post.warren %}
                 <a  class="card-text text-muted h6" href="{% url 'warren' post.warren.name %}">
                     {% if post.warren.profile_img %}
                     <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
                     {% endif %}
                     <b>w/{{ post.warren.name }}</b>
                 </a>
+            {% endif %}
                     • Posted by <a class="card-text text-muted h6" href="{% url 'profile' post.user %}"><b>r/{{ post.user }}</b></a>
                     at {{ post.creation_date }}
             </p>
