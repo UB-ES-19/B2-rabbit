@@ -23,7 +23,7 @@
                     <a href={{ post.link}}>{{ post.link }}</a>
                 {% endif %}
             </div>
-
+            {% if post.user == request.user %}
             <div class="card-body">
                 <div class="float-right">
                 <a class="my-1" href="{% url 'delete' post.id %}">
@@ -31,6 +31,7 @@
                 </a>
                 </div>
             </div>
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock %}
@@ -41,15 +42,7 @@
     <div class="card my-4">
         <h5 class="card-header"><b>r/{{user}}</b> profile page</h5>
         <div class="card-body">
-            <p class="card-text"> This is <b>{{user}}</b> rabbit profile page. Here you'll find all information regarding the user</p>
-            <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
-            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
-            </a>
-        </div>
-      <div class="card-body">
-            <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-pen cyan-text"></i>
-            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">NEW WARREN</button>
-            </a>
+            <p class="card-text"> This is <b>{{user}}</b> rabbit profile page. Here you'll find all post and information regarding the user</p>
         </div>
 
     </div>

@@ -57,12 +57,13 @@ def warren(request, name):
 
 
 def profile(request, name):
-    context = {'warrens': Warren.objects.all()}
+    context = {}
     try:
         r = User.objects.get(username=name)
-        posts = Post.objects.filter(user=r).order_by('-creation_date')[:30]
+        warrens = Warren.objects.all()
+        context["warrens"] = warrens
         context["user"] = r
-        context["posts"] = posts
+        context["posts"] = Post.objects.filter(user=r).order_by('-creation_date')[:30]
         return render(request, 'user_profile.html', context)
     except:
         return redirect(index)

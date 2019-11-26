@@ -3,8 +3,14 @@
     <h1>Delete {{ post.title }}?</h1>
     <form method="POST" action="">
     {% csrf_token %}
-    Are you sure you want to delete this post?
-    <input type="submit" value="Yes"/>
-    <a href='../'>Cancel </a>
+        <p>Are you sure you want to delete this post?</p>
+     <div class="card mb-4">
+        <div class="card-body">
+            <div class="float-right">
+                <button class="btn btn-sm my-0 btn-outline-primary waves-effect waves-light" type="reset" onClick="location.href='../'">CANCEL</button>
+                <button class="btn btn-primary btn-sm my-0 ml-3" type="submit" value="Yes" >DELETE</button>
+            </div>
+        </div>
+     </div>
     </form>
 {% endblock %}
