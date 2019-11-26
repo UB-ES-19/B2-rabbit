@@ -112,6 +112,7 @@ def login_user(request):
 @login_required()
 def create_post(request):
     context = {}
+    context['warrens'] = Warren.objects.all()
     if request.method == "POST":
         form = PostForm(data=request.POST)
         if form.is_valid():

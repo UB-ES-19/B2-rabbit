@@ -44,8 +44,24 @@
         <div class="card-body">
             <p class="card-text"> This is <b>{{user}}</b> rabbit profile page. Here you'll find all post and information regarding the user</p>
         </div>
-
     </div>
+
+    {% if request.user == user %}
+    <div class="card my-4">
+        <div class="card-body">
+            <p class="card-text"> Share a post or start a new community.</p>
+            <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+                <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+            </a>
+        </div>
+      <div class="card-body">
+            <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-plus-circle cyan-text"></i>
+                <button class="btn btn-primary btn-sm my-0 ml-3" type="button">NEW WARREN</button>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="card my-4">
             <h5 class="card-header">Community rules</h5>
         <div class="card-body">
