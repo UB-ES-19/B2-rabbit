@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm, CommentForm
-from rabbit.models import Post, Warren, Follower, Comment
+from rabbit.models import Post, Warren, Follower, Comment, Suscribe
 
 
 # Create your views here.
@@ -187,7 +187,9 @@ def search(request):
     }
     if request.user.is_authenticated:
         following = get_following(request.user)
+        suscribing = get_suscribing(request.user)
         context['following'] = [user for user in result_u if following.filter(following=user)]
+        context['suscribing'] = [warren for warren in result_w if suscribing.filter(suscribing=warren)]
     return render(request, 'search.html', context)
 
 
@@ -265,3 +267,22 @@ def comment(request, id_post, id_comment = None):
             return redirect(post_view, id_post=id_post)
         return JsonResponse(status='200', data={'status': 'error', 'message': form.errors})
     return JsonResponse(status='200', data={'status': 'error', 'message': 'only post page'})
+
+@login_required()
+def suscribe(request):
+    if request.method == "POST":
+        try:
+            warren = Warren.objects.get(name=request.POST["name"])
+            user = User.objects.get(username=request.user.username)
+            suscriber = user.suscribing.filter(suscribing=warren)
+            if suscriber:
+                suscriber.delete()
+            else:
+                user.suscribing.add(Suscribe(suscribing=warren), bulk=False)
+            return JsonResponse(status='200', data={'status': 'ok'})
+        except Exception as ex:
+            return JsonResponse(status='200', data={'status': 'error', 'message': str(ex)})
+
+
+def get_suscribing(user):
+    return user.suscribing.all()

@@ -19,6 +19,14 @@
                     <div class="col-md-6">
                         <p class="card-text">{{ post.description | safe }}</p>
                     </div>
+                <form id="{{ post.name }}form">
+                    {% csrf_token %}
+                    {% if post in suscribing %}
+                        <a class="btn btn-primary" onclick="suscribe('{{ post.name }}');">UnSuscribe</a>
+                    {% else %}
+                        <a class="btn btn-outline-primary" onclick="suscribe('{{ post.name }}');">Suscribe</a>
+                    {% endif %}
+                </form>
                 </div>
             </div>
         </div>
@@ -53,6 +61,22 @@
              $.ajax({
                 method: 'POST',
                 url: "{% url 'follow' %}",
+                data: data,
+                success: (data) => {
+                    if (data.status === 'ok') {
+
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        };
+
+    var suscribe = (name) => {
+        let data = $('#' + name + 'form').serialize() + "&name=" + name;
+             $.ajax({
+                method: 'POST',
+                url: "{% url 'suscribe' %}",
                 data: data,
                 success: (data) => {
                     if (data.status === 'ok') {
