@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content-body %}
     {% for post in posts %}
        <div class="card mb-4">
@@ -28,7 +27,7 @@
             <div class="card-body">
                 <div class="float-right">
                 <a class="my-1" href="{% url 'delete' post.id %}">
-                    <button class="btn btn-primary btn-sm my-0 ml-3" type="button">delete</button>
+                    <button class="btn btn-primary btn-sm my-0 ml-3" type="button">Delete</button>
                 </a>
                 </div>
             </div>
@@ -36,29 +35,13 @@
     {% endfor %}
 {% endblock %}
 
+
 {% block sidebar %}
     <!-- Sidebar Widgets Column -->
-    {{ request.GET }}
     <div class="card my-4">
-        <h5 class="card-header">Welcome to <b>r/{{user}}</b> main page</h5>
-        {% if not request.user.is_authenticated %}
+        <h5 class="card-header"><b>r/{{user}}</b> profile page</h5>
         <div class="card-body">
-            <p class="card-text"> Rabbit is a open community to post and share everything you want.</p>
-            <p class="card-text">Register and begin sharing your thoughts, links and memes with friends and strangers. </p>
-        </div>
-        {%  endif %}
-    </div>
-
-    {% if request.user.is_authenticated %}
-        {% if request.user.name == request.GET.name %}
-            {% endif %}
-    {% endif %}
-    <div class="card my-4">
-            <h5 class="card-header">Welcome <b>r/{{url.user}}</b></h5>
-        <div class="card-body">
-
-            <p class="card-text"> This is  rabbit profile page. Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
-            <p class="card-text"> Share a post or start a new community.</p>
+            <p class="card-text"> This is <b>{{user}}</b> rabbit profile page. Here you'll find all information regarding the user</p>
             <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
             <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
             </a>
@@ -70,7 +53,6 @@
         </div>
 
     </div>
-    {% endif %}
     <div class="card my-4">
             <h5 class="card-header">Community rules</h5>
         <div class="card-body">
