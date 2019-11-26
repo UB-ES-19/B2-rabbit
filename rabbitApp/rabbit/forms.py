@@ -4,7 +4,7 @@ from django import forms
 
 
 class PostForm(ModelForm):
-    warren = forms.ModelChoiceField(Warren.objects.all())
+    warren = forms.ModelChoiceField(Warren.objects.all(), required=False)
 
     class Meta:
         model = Post
@@ -15,7 +15,7 @@ class PostForm(ModelForm):
 
 
 class ImgPostForm(ModelForm):
-    warren = forms.ModelChoiceField(Warren.objects.all())
+    warren = forms.ModelChoiceField(Warren.objects.all(), required=False)
 
     class Meta:
         model = Post
@@ -27,7 +27,7 @@ class ImgPostForm(ModelForm):
 
 
 class LinkPostForm(ModelForm):
-    warren = forms.ModelChoiceField(Warren.objects.all())
+    warren = forms.ModelChoiceField(Warren.objects.all(), required=False)
 
     class Meta:
         model = Post
