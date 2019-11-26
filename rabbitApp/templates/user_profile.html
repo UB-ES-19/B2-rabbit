@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
+
 {% block content-body %}
-    {{ user.username }}
     {% for post in posts %}
-        <div class="card mb-4">
+       <div class="card mb-4">
             <div class="card-body">
-                <p class="card-text text-muted h6">Posted by <b>{{ post.user }}</b> at {{ post.creation_date }} </p>
-                <h2 class="card-title">{{ post.title | safe }}</h2>
+            <p class="card-text text-muted h6">
+                <a  class="card-text text-muted h6" href="{% url 'warren' post.warren.name %}">
+                    {% if post.warren.profile_img %}
+                    <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
+                    {% endif %}
+                    <b>w/{{ post.warren.name }}</b></a>
+                    • Posted by <a class="card-text text-muted h6" href="{% url 'profile' post.user %}"><b>r/{{ post.user }}</b></a>
+                    at {{ post.creation_date }}
+            </p>
+                <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
                 {% if post.description %}
                     <p class="card-text">{{ post.description | safe }}</p>
                 {% endif %}
@@ -16,9 +24,71 @@
                     <a href={{ post.link}}>{{ post.link }}</a>
                 {% endif %}
             </div>
-        <a class="my-1" href="{% url 'delete' post.id %}">
-            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">delete</button>
-        </a>
+
+            <div class="card-body">
+                <div class="float-right">
+                <a class="my-1" href="{% url 'delete' post.id %}">
+                    <button class="btn btn-primary btn-sm my-0 ml-3" type="button">delete</button>
+                </a>
+                </div>
+            </div>
         </div>
     {% endfor %}
 {% endblock %}
+
+{% block sidebar %}
+    <!-- Sidebar Widgets Column -->
+    {{ request.GET }}
+    <div class="card my-4">
+        <h5 class="card-header">Welcome to <b>r/{{user}}</b> main page</h5>
+        {% if not request.user.is_authenticated %}
+        <div class="card-body">
+            <p class="card-text"> Rabbit is a open community to post and share everything you want.</p>
+            <p class="card-text">Register and begin sharing your thoughts, links and memes with friends and strangers. </p>
+        </div>
+        {%  endif %}
+    </div>
+
+    {% if request.user.is_authenticated %}
+        {% if request.user.name == request.GET.name %}
+            {% endif %}
+    {% endif %}
+    <div class="card my-4">
+            <h5 class="card-header">Welcome <b>r/{{url.user}}</b></h5>
+        <div class="card-body">
+
+            <p class="card-text"> This is  rabbit profile page. Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
+            <p class="card-text"> Share a post or start a new community.</p>
+            <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+            </a>
+        </div>
+      <div class="card-body">
+            <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-pen cyan-text"></i>
+            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">NEW WARREN</button>
+            </a>
+        </div>
+
+    </div>
+    {% endif %}
+    <div class="card my-4">
+            <h5 class="card-header">Community rules</h5>
+        <div class="card-body">
+             <p class="card-text"> Remember before posting:</p>
+            <ul>
+                <li class="card-text">Respect others users</li>
+                <li class="card-text">Behave like you would in real life</li>
+                <li class="card-text">Look for the original source of content</li>
+                <li class="card-text">Search for duplicates before posting</li>
+                <li class="card-text">Read the community’s rules</li>
+            </ul>
+        </div>
+    </div>
+    <div class="card my-4">
+            <h5 class="card-header">Rabbit disclaimer</h5>
+        <div class="card-body">
+             <p class="card-text"> Posting memes can be addictive and cause severe procrastination.</p>
+             <p class="card-text"> In no event shall Rabbit Inc be liable for any loss, personal damage, misuse of personal information or privacy breach</p>
+        </div>
+    </div>
+{% endblock sidebar %}

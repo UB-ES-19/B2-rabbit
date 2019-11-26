@@ -46,6 +46,8 @@ def warren(request, name):
     context = {}
     try:
         w = Warren.objects.get(name=name)
+        warrens = Warren.objects.all()
+        context["warrens"] = warrens
         context["warren"] = w
         context["posts"] = Post.objects.filter(warren=w.name).order_by('-creation_date')[:30]
         return render(request, 'warren_view.html', context)
@@ -58,7 +60,7 @@ def profile(request, name):
     context = {'warrens': Warren.objects.all()}
     try:
         r = User.objects.get(username=name)
-        posts = Post.objects.filter(user=r, warren=None).order_by('-creation_date')[:30]
+        posts = Post.objects.filter(user=r).order_by('-creation_date')[:30]
         context["user"] = r
         context["posts"] = posts
         return render(request, 'user_profile.html', context)

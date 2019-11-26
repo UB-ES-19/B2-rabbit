@@ -46,8 +46,8 @@ class WarrenForm(ModelForm):
         model = Warren
         fields = ['name', 'description', 'profile_img', 'landscape_img']
         widgets = {
-            'name': forms.TextInput(),
-            'description': forms.Textarea(attrs={'rows': '5'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+            'description': forms.Textarea(attrs={'rows': '5', 'placeholder': 'Write a little description'}),
         }
 
 

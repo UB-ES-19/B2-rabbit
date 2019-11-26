@@ -1,6 +1,11 @@
  <li class="list-group-item">
-    <p>Posted by <a class="card-text text-muted h6" href="{{node.value.user}}"><b>{{node.value.user}}</b></a> at {{node.value.creation_date}}</p>
-    <p>{{ node.value.text| safe}}</p>
+    <div class="card mb-2">
+    <div class="card-body">
+    <p class="card-text text-muted h6"><a class="card-text text-muted h6" href="{{node.value.user}}">
+        <b>{{node.value.user}}</b></a> at {{node.value.creation_date}}</p><p>{{ node.value.text| safe}}</p>
+    </div>
+    </div>
+
     {% if request.user.is_authenticated %}
         <a class="dropdown-item" onclick="showReply({{ node.value.id }})"><i class="fas fa-reply"></i> Reply</a>
         <div class="container" id="{{node.value.id }}" style = "display: none;">
@@ -8,19 +13,21 @@
             <form action="{% url 'comment' post.id node.value.id  %}" method="post">
                 {% csrf_token %}
                 {{ comment_form.text}}
-                </div>
+
                 <div class = "mb-3">
-                <button right"; class="btn btn-sm my-0 btn-outline-primary waves-effect waves-light" type="cancel" onclick="showReply({{ node.value.id }})" >CANCEL</button>
+                <button class="btn btn-sm my-0 btn-outline-primary waves-effect waves-light" type="cancel" onclick="showReply({{ node.value.id }})" >CANCEL</button>
                 <button class="btn btn-primary btn-sm my-0 ml-3" type="submit">COMMENT</button>
                 </div>
             </form>
+            </div>
         </div>
+
 
 
     {% endif %}
     <ul>
     {% for ch in node.children %}
-        {%with node=ch template_name="comments.html" %}
+        {% with node=ch template_name="comments.html" %}
            <div style="width: 5px"></div>
             {%include template_name%}
         {%endwith%}

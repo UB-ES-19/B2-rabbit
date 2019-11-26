@@ -2,18 +2,28 @@
 
 {% block content-body %}
     <div class="card mb-4">
-        <div class="card-body">
-            <p class="card-text text-muted h6">Posted by <a class="card-text text-muted h6" href="/r/{{post.user}}"><b>r/{{post.user}}</b></a> at {{ post.creation_date }} </p>
-            <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
-            {% if post.description %}
-                <p class="card-text">{{ post.description | safe }}</p>
-            {% elif post.img %}
-                <img src= "{{ post.img.url }}" class="img-fluid" alt="img" />
-            {% elif post.link %}
-                <a href={{ post.link }}>{{ post.link }}</a>
-            {% endif %}
+            <div class="card-body">
+            <p class="card-text text-muted h6">
+                <a  class="card-text text-muted h6" href="{% url 'warren' post.warren.name %}">
+                    {% if post.warren.profile_img %}
+                    <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
+                    {% endif %}
+                    <b>w/{{ post.warren.name }}</b>
+                </a>
+                    • Posted by <a class="card-text text-muted h6" href="{% url 'profile' post.user %}"><b>r/{{ post.user }}</b></a>
+                    at {{ post.creation_date }}
+            </p>
+                <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
+                {% if post.description %}
+                    <p class="card-text">{{ post.description | safe }}</p>
+                {% elif post.img %}
+                    <img src= "{{ post.img.url }}" class="img-fluid" alt="img" />
+                {% elif post.link %}
+                    <a href={{ post.link }}>{{ post.link }}</a>
+                {% endif %}
+            </div>
         </div>
-    </div>
+
     {% if not request.user.is_authenticated %}
         <div class="card mb-4">
             <div class="card-body">
@@ -29,11 +39,11 @@
     {% if request.user.is_authenticated %}
         <div class="card mb-4">
             <div class="card-body">
-            <p>Comment as <a class="card-text text-muted h6" href="{{user.username}}"><b>{{user.username}}</b></a></p>
+            <p class="card-text text-muted h6">Comment as <a class="card-text text-muted h6" href="{{user.username}}"><b>{{user.username}}</b></a></p>
             <form action="{% url 'comment' post.id %}" method="post">
                 {% csrf_token %}
                 <div class="card mb-4">
-                {{ comment_form.text}}
+                {{ comment_form.text | safe}}
                 </div>
 
                 <div class="float-right">
@@ -57,27 +67,28 @@
 
 {% block sidebar %}
     <!-- Sidebar Widgets Column -->
-    {% if not request.user.is_authenticated %}
     <div class="card my-4">
-            <h5 class="card-header">Welcome to warren {{ post.warren.name }}</h5>
+         <a  class="card-header text-muted h5" href="{% url 'warren' post.warren.name %}">
+            {% if post.warren.profile_img %}
+            <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
+            {% endif %}
+            <b>w/{{ post.warren.name }}</b>
+         </a>
+        <div class="card my-4">
+            <div class="card-body">
+                <p class="card-text">Welcome to <b>w/{{ post.warren.name }}</b>.
+                <p class="card-text">{{ post.warren.description | safe }}</p>
+                <p class="card-text"> Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
+                <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+                <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+                </a>
+            </div>
         <div class="card-body">
-            <p class="card-text"> Rabbit is a open community to post and share everything you want.</p>
-            <p class="card-text">Register and begin sharing your thougts, links and memes with friends and strangers. </p>
-        </div>
-    </div>
-    {%  endif %}
-    {% if request.user.is_authenticated %}
-    <div class="card my-4">
-            <h5 class="card-header">Welcome <b>{{user}}</b> to the warren {{ post.warren.name }}</h5>
-        <div class="card-body">
-            <p class="card-text"> This is the warren main page.</p>
-            <p class="card-text">The warren description {{ post.warren.description }}</p>
-            <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
-            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+            <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-pen cyan-text"></i>
+            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">SUBSCRIBE TODO</button>
             </a>
         </div>
-    </div>
-    {% endif %}
+        </div>
     <div class="card my-4">
             <h5 class="card-header">Community rules</h5>
         <div class="card-body">
