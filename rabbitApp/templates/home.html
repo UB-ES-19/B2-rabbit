@@ -13,6 +13,10 @@
                 {% elif post.link %}
                     <a href={{ post.link }}>{{ post.link }}</a>
                 {% endif %}
+
+                {% ifequal  post.user|stringformat:"s"  request.user.username|stringformat:"s"   %}
+                    <a href="#!" class="black-text d-flex justify-content-end"><i class="fas fa-trash"></i></a>
+                {% endifequal %}
             </div>
         </div>
     {% endfor %}
