@@ -22,9 +22,9 @@
                         <form id="{{ post.name }}form">
                             {% csrf_token %}
                             {% if post in suscribing %}
-                                <a class="btn btn-primary btn-sm " onclick="suscribe('{{ post.name }}');">UnSuscribe</a>
+                                <a class="btn btn-outline-primary btn-sm " onclick="suscribe('{{ post.name }}');">UnSuscribe</a>
                             {% else %}
-                                <a class="btn btn-outline-primary btn-sm" onclick="suscribe('{{ post.name }}');">Suscribe</a>
+                                <a class="btn btn-primary btn-sm" onclick="suscribe('{{ post.name }}');">Suscribe</a>
                             {% endif %}
                         </form>
 
@@ -47,9 +47,9 @@
                         <form id="{{ u.username }}form">
                             {% csrf_token %}
                             {% if u in following %}
-                                <a class="btn btn-primary btn-sm " onclick="follow('{{ u.username }}');">UnFollow</a>
+                                <a class="btn btn-outline-primary btn-sm " onclick="follow('{{ u.username }}');">UnFollow</a>
                             {% else %}
-                                <a class="btn btn-outline-primary btn-sm" onclick="follow('{{ u.username }}');">Follow</a>
+                                <a class="btn btn-primary btn-sm" onclick="follow('{{ u.username }}');">Follow</a>
                             {% endif %}
                         </form>
                     </div>

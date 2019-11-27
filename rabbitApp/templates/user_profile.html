@@ -51,9 +51,18 @@
         </div>
         {% if request.user != user %}
         <div class="card-body">
-            <a  class="my-1"  href=""><i class="fas fa-user-friends small cyan-text"></i>
-            <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">FOLLOW TODO</button>
-            </a>
+            <form id="{{ user.username }}form">
+                {% csrf_token %}
+                {% if user in following %}
+                    <a  class="my-1"  onclick="follow('{{ user.username }}');"><i class="fas fa-user-friends small cyan-text"></i>
+                        <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">UNFOLLOW USER</button>
+                    </a>
+                {% else %}
+                    <a  class="my-1"  onclick="follow('{{ user.username }}');"><i class="fas fa-user-friends small cyan-text"></i>
+                        <button class= "btn btn-sm btn-primary my-0 ml-3" type="button">FOLLOW USER</button>
+                    </a>
+                {% endif %}
+            </form>
         </div>
     {% endif %}
     </div>
