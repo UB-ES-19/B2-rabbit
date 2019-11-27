@@ -24,6 +24,13 @@
                 {% elif post.link %}
                     <a href={{ post.link }}>{{ post.link }}</a>
                 {% endif %}
+                {% if post.user == request.user %}
+
+                    <div class="float-right">
+                        <a href="#" class="my-1" onclick="deletePost('{{ post.id }}')"><i class="fas fa-trash small cyan-text"></i></a>
+                    </div>
+
+                {% endif %}
             </div>
         </div>
     {% endfor %}

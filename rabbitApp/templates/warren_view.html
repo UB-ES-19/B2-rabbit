@@ -21,6 +21,13 @@
                 {% elif post.link %}
                     <a href={{ post.link }}>{{ post.link }}</a>
                 {% endif %}
+                {% if post.user == request.user %}
+
+                    <div class="float-right">
+                        <a href="#" class="my-1" onclick="deletePost('{{ post.id }}')"><i class="fas fa-trash small cyan-text"></i></a>
+                    </div>
+
+                {% endif %}
             </div>
         </div>
     {% endfor %}
@@ -42,18 +49,27 @@
             <p class="card-text"> Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
         </div>
         {% if request.user.is_authenticated %}
-         <div class="card my-4">
+
             <div class="card-body">
                 <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
                     <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
                 </a>
             </div>
             <div class="card-body">
-                <a  class="my-1" href=""><i class="fas fa-users small cyan-text"></i>
-                    <button class="btn btn-sm my-0 ml-3  btn-outline-primary waves-effect waves-light" type="button">SUBSCRIBE TODO</button>
-                </a>
+                <form id="{{ warren.name }}form">
+                    {% csrf_token %}
+                    {% if warren in suscribing %}
+                        <a  class="my-1" onclick="suscribe('{{ warren.name }}');"> <i class="fas fa-users  cyan-text"></i>
+                            <button class="btn btn-outline-primary btn-sm my-0 ml-3" type="button">UnSuscribe</button>
+                        </a>
+                    {% else %}
+                        <a  class="my-1" onclick="suscribe('{{ warren.name }}');"> <i class="fas fa-users  cyan-text"></i>
+                            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">Suscribe</button>
+                        </a>
+                    {% endif %}
+                </form>
             </div>
-        </div>
+
 
     </div>
     {% endif %}

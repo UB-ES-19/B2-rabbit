@@ -83,10 +83,31 @@
                 <p class="card-text">Welcome to <b>w/{{ post.warren.name }}</b>.
                 <p class="card-text">{{ post.warren.description | safe }}</p>
                 <p class="card-text"> Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
-                <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
-                <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
-                </a>
+                {% if request.user.is_authenticated %}
+                    <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+                        <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+                    </a>
+                {% endif %}
             </div>
+             {% if request.user.is_authenticated %}
+                 <div class="card-body">
+                    <form id="{{ post.warren.name }}form">
+                        {% csrf_token %}
+                        {% if post.warren in suscribing %}
+                            <a  class="my-1" onclick="suscribe('{{ post.warren.name }}');"> <i class="fas fa-users  cyan-text"></i>
+                                <button class="btn btn-outline-primary btn-sm my-0 ml-3" type="button">UnSuscribe</button>
+                            </a>
+                        {% else %}
+                            <a  class="my-1" onclick="suscribe('{{ post.warren.name }}');"> <i class="fas fa-users  cyan-text"></i>
+                                <button class="btn btn-primary btn-sm my-0 ml-3" type="button">Suscribe</button>
+                            </a>
+                        {% endif %}
+                    </form>
+                </div>
+
+             {% endif %}
+
+         </div>
     {% else %}
         <a  class="card-header text-muted h5" href="{% url 'profile' post.user.username %}">
             <b>r/{{ post.user.username }}</b>
@@ -96,25 +117,33 @@
             <p class="card-text">Welcome to <b>r/{{ post.user.username }}</b>.
             <p class="card-text">{{ post.warren.description | safe }}</p>
             <p class="card-text"> Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
-            <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
-            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
-            </a>
+             {% if request.user.is_authenticated %}
+                    <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+                        <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+                    </a>
+             {% endif %}
         </div>
+        {% if request.user.is_authenticated %}
+            <div class="card-body">
+            <form id="{{ post.user.username }}form">
+            {% csrf_token %}
+            {% if post.user in following %}
+                <a  class="my-1"  onclick="follow('{{ post.user.username }}');"><i class="fas fa-user-friends small cyan-text"></i>
+                    <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">UNFOLLOW USER</button>
+                </a>
+            {% else %}
+                <a  class="my-1"  onclick="follow('{{ post.user.username }}');"><i class="fas fa-user-friends small cyan-text"></i>
+                    <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">FOLLOW USER</button>
+                </a>
+            {% endif %}
+        </form>
+
+         </div>
+
+        {% endif %}
+
     {% endif %}
-    {% if post.warren %}
-    <div class="card-body">
-        <a  class="my-1"  href=""><i class="fas fa-users small cyan-text"></i>
-        <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">SUBSCRIBE TODO</button>
-        </a>
-    </div>
-    {% else %}
-    <div class="card-body">
-        <a  class="my-1"  href=""><i class="fas fa-user-friends small cyan-text"></i>
-        <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">FOLLOW TODO</button>
-        </a>
-    </div>
-    {%  endif %}
-    </div>
+
     <div class="card my-4">
             <h5 class="card-header">Community rules</h5>
         <div class="card-body">

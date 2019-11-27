@@ -25,14 +25,15 @@
                 {% if post.link %}
                     <a href={{ post.link}}>{{ post.link }}</a>
                 {% endif %}
+                {% if post.user == request.user %}
+
+                    <div class="float-right">
+                        <a href="#" class="my-1" onclick="deletePost('{{ post.id }}')"><i class="fas fa-trash small cyan-text"></i></a>
+                    </div>
+
+                {% endif %}
             </div>
-            {% if post.user == request.user %}
-            <div class="card-body" >
-                <div class="float-right">
-                    <a href="#" class="my-1" onclick="deletePost('{{ post.id }}')"><i class="fas fa-trash cyan-text"></i></a>
-                </div>
-            </div>
-            {% endif %}
+
         </div>
     {% endfor %}
 

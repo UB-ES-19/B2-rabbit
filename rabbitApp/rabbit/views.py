@@ -42,6 +42,7 @@ def register(request):
         return render(request, 'registrationForm.html', context)
 
 
+
 def warren(request, name):
     context = {}
     try:
@@ -74,7 +75,6 @@ def profile(request, name):
         return render(request, 'user_profile.html', context)
     except:
         return redirect(index)
-
 
 @login_required()
 def create_warren(request):
