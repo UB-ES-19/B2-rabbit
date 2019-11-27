@@ -13,29 +13,72 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="{% static 'css/select2.min.css' %}"/>
 
-    {% block links %} {% endblock %}
+    {% block links %}
+     {% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-light white" id="navbar_principal">
-     <div class="row justify-content-start">
-          <div class="col-2">
+     <div class="row" style="width: 100%">
+          <div class="d-flex mr-2 ml-1 justify-content-start">
+
              <a class="navbar-brand" href="{% url 'index' %}">
                 <img src="{% static 'img/rabbit-logo.png' %}" class="img" height="30px">
              </a>
+             <h2 class="black-text">rabbit</h2>
+             <div class="nav-item dropdown btn-group" style="margin-left: 50px">
+                    <a class="dropdown-toggle my-2" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" style="width: 200px;">
+                        Popular
+                    </a>
+                    <div class="dropdown-menu dropdown-primary " style="width: 200px">
+                        {% if request.user.is_authenticated %}
+                            <a class="dropdown-item" href="{% url 'profile' user  %}" >
+                                My Profile
+                            </a>
+                        {%  endif %}
+                            <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">ALL COMMUNITIES</li>
+                            {% for warren in warrens %}
+                                <a class="dropdown-item" href="{% url 'warren' warren.name  %}" >
+                                {% if warren.profile_img %}
+                                    <img class="img-fluid" src="{{ warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
+                                {% endif %}
+                                w/{{ warren.name | safe }}
+                                </a>
+                            {% endfor %}
+                            {% if request.user.is_authenticated %}
+                            <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">OTHER</li>
+                            <li class="nav-item" style="margin-bottom: 10px">
+                                <a  class="my-1" href="{% url 'submit' %}" ><i class="fas fa-pen cyan-text"></i>
+                                    Create Post
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-bottom: 10px">
+                                <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-plus-circle cyan-text"></i>
+                                    Create Warren
+                                </a>
+                            </li>
+                            {% endif %}
+                     </div>
+                </div>
+
           </div>
+          <div class ="d-flex  justify-content-center ">
+              <form id="searchbar" action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0">
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
+                  </div>
+                  <input class="form-control form-control-sm" placeholder="Search"
+                    aria-label="Search" style="width: 400px;"
+                    name="q" type="text" value="{{request.GET.q}}">
+              </div>
+          </form>
 
-    </div>
-      <form id="searchbar" action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0" style="width: 50%">
-              <i class="fas fa-search" aria-hidden="true"></i>
-              <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
-                aria-label="Search"
-                name="q" type="text" value="{{request.GET.q}}">
-      </form>
-    <div class="row justify-content-end">
-
-      <div class="col-md-10">
-           {% if not request.user.is_authenticated %}
+          </div>
+          <div class="d-flex ml-auto my-1 justify-content-end">
+              {% if not request.user.is_authenticated %}
             <ul class="navbar-nav ml-auto nav-flex-icons" >
+
                 <li class="nav-item">
                     <button class="btn btn-sm my-0 btn-outline-primary" type="button" onclick="modal_login()">
                         Login
@@ -69,13 +112,14 @@
                         <i class="fas fa-user-circle mr-2"></i> {{ request.user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-primary">
+                         <a class="dropdown-item" href={% url "profile" request.user.username %}>My profile</a>
                          <a class="dropdown-item" href="/logout#">Log out</a>
                      </div>
                 </li>
             </ul>
 
         {% endif %}
-      </div>
+          </div>
     </div>
 
 </nav>
@@ -103,17 +147,23 @@
                             <h5 class="card-header">Welcome to Rabbit</h5>
                         <div class="card-body">
                             <p class="card-text"> Rabbit is a open community to post and share everything you want.</p>
-                            <p class="card-text">Register and begin sharing your thougts, links and memes with friends and strangers. </p>
+                            <p class="card-text">Register and begin sharing your thoughts, links and memes with friends and strangers. </p>
                         </div>
                     </div>
                     {%  endif %}
                     {% if request.user.is_authenticated %}
                     <div class="card my-4">
-                            <h5 class="card-header">Welcome <b>{{user}}</b></h5>
+                            <h5 class="card-header">Welcome <b>r/{{user}}</b></h5>
                         <div class="card-body">
-                            <p class="card-text"> This is your personal rabbit front page.</p>
+                            <p class="card-text"> This is your personal rabbit front page. Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
+                            <p class="card-text"> Share a post or start a new community.</p>
                             <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
-                            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+                                <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+                            </a>
+                        </div>
+                      <div class="card-body">
+                            <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-plus-circle cyan-text"></i>
+                                <button class="btn btn-primary btn-sm my-0 ml-3" type="button">NEW WARREN</button>
                             </a>
                         </div>
                     </div>
@@ -153,6 +203,9 @@
 
 {% block more-scripts %}
 
+{% endblock %}
+
+{% block subs-follow-script %}
 {% endblock %}
 
 

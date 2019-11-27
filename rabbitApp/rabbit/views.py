@@ -42,12 +42,18 @@ def register(request):
         return render(request, 'registrationForm.html', context)
 
 
+
 def warren(request, name):
     context = {}
     try:
         w = Warren.objects.get(name=name)
+        warrens = Warren.objects.all()
+        context["warrens"] = warrens
         context["warren"] = w
         context["posts"] = Post.objects.filter(warren=w.name).order_by('-creation_date')[:30]
+        if request.user.is_authenticated:
+            suscribing = get_suscribing(request.user)
+            context['suscribing'] = [warren for warren in warrens if suscribing.filter(suscribing=warren)]
         return render(request, 'warren_view.html', context)
 
     except:
@@ -55,16 +61,20 @@ def warren(request, name):
 
 
 def profile(request, name):
-    context = {'warrens': Warren.objects.all()}
+    context = {}
     try:
         r = User.objects.get(username=name)
-        posts = Post.objects.filter(user=r, warren=None).order_by('-creation_date')[:30]
+        users = User.objects.all()
+        warrens = Warren.objects.all()
+        context["warrens"] = warrens
         context["user"] = r
-        context["posts"] = posts
+        context["posts"] = Post.objects.filter(user=r).order_by('-creation_date')[:30]
+        if request.user.is_authenticated:
+            following = get_following(request.user)
+            context['following'] = [user for user in users if following.filter(following=user)]
         return render(request, 'user_profile.html', context)
     except:
         return redirect(index)
-
 
 @login_required()
 def create_warren(request):
@@ -109,6 +119,7 @@ def login_user(request):
 @login_required()
 def create_post(request):
     context = {}
+    context['warrens'] = Warren.objects.all()
     if request.method == "POST":
         form = PostForm(data=request.POST)
         if form.is_valid():
@@ -196,11 +207,11 @@ def delete(request, id):
     if request.method == "POST" and request.user.is_authenticated\
             and request.user.id == post.user.id:
         post.delete()
-        return redirect('../../')
+        return JsonResponse(status='200', data={'status': 'ok'})
     context = {
         "post": post
     }
-    return render(request, 'deletePost.html', context)
+    return JsonResponse(status='200', data={'status': 'error', 'message': 'You can not delete this post.'})
 
 
 @login_required()
@@ -237,13 +248,20 @@ def post_view(request, id_post):
     root = Node(None, None)
     for c in all_comments.filter(parent=None):
         make_tree(all_comments, c, root)
+    users = User.objects.all()
+    warrens = Warren.objects.all()
     context = {
         'post': post,
         'post_comments': root,
         'comment_form': CommentForm(),
-        'warrens': Warren.objects.all()
+        'warrens': warrens
 
     }
+    if request.user.is_authenticated:
+        following = get_following(request.user)
+        suscribing = get_suscribing(request.user)
+        context['following'] = [user for user in users if following.filter(following=user)]
+        context['suscribing'] = [warren for warren in warrens if suscribing.filter(suscribing=warren)]
     return render(request, 'post.html', context)
 
 
