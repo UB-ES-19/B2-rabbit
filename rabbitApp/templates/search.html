@@ -2,59 +2,60 @@
 
 {% block content-body %}
 
-    {% for w in lastPost %}
+    {% for post in lastPost %}
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
-                        <a href="{% url 'warren' w.name  %}">
-                            <p class="card-text">
-                                {% if w.profile_img %}
-                                <img class="img-fluid" src="{{ w.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
-                                {% endif %}
-                                <b> w/{{ w.name | safe }}</b>
-                            </p>
+                    <div class="d-flex justify-content-start">
+                        {% if post.profile_img %}
+                            <img src= "{{ post.profile_img.url }}"  alt="img" style="width: 50px;height:50px;border-radius: 50%" />
+                        {% endif %}
+                        <a href="{% url 'warren' post.name  %}" class="my-1" style="margin-left: 5px">
+                            <p class="card-text"><b> w/{{ post.name | safe }}</b></p>
                         </a>
                     </div>
-                    <div class="col-6">
-                        <div class="col-7 float-right">
-                        <form id="{{ w  }}form">
+
+                    <div class="d-flex ml-auto justify-content-center">
+                        <p class="card-text">{{ post.description | safe }}</p>
+                    </div>
+                    <div class="d-flex ml-auto justify-content-end">
+                        <form id="{{ post.name }}form">
                             {% csrf_token %}
-                            {% if w in suscribing %}
-                                <a class="btn btn-sm btn-primary btn-block" onclick="suscribe('{{ w.name }}');">UnSubscribe</a>
+                            {% if post in suscribing %}
+                                <a class="btn btn-primary btn-sm " onclick="suscribe('{{ post.name }}');">UnSuscribe</a>
                             {% else %}
-                                <a class="btn btn-sm btn-outline-primary btn-block" onclick="suscribe('{{ w.name }}');">Subscribe</a>
+                                <a class="btn btn-outline-primary btn-sm" onclick="suscribe('{{ post.name }}');">Suscribe</a>
                             {% endif %}
                         </form>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     {% endfor %}
-    {% for u in users %}
+     {% for u in users %}
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
-                    <a href="{% url 'profile' u.username %}">
-                        <p class="card-text"><b> r/{{ u.username | safe }}</b></p>
-                    </a>
+                    <div class="d-flex justify-content-start">
+                        <a href="{% url 'profile' u.username %}" class="my-1" style="margin-left: 5px">
+                            <p class="card-text"><b> r/{{ u.username | safe }}</b></p>
+                        </a>
                     </div>
-                    <div class="col-6">
-                        <div class="col-7 float-right">
-                        <form id="{{ u }}form">
+                    <div class="d-flex ml-auto justify-content-end">
+                        <form id="{{ u.username }}form">
                             {% csrf_token %}
-                            {% if request.user != u %}
-                                {% if u in following %}
-                                    <a class="btn btn-sm btn-primary btn-block" onclick="follow('{{ u.username }}');">UnFollow </a>
-                                {% else %}
-                                    <a class="btn btn-sm btn-outline-primary btn-block" onclick="follow('{{ u.username }}');">Follow</a>
-                                {% endif %}
+                            {% if u in following %}
+                                <a class="btn btn-primary btn-sm " onclick="follow('{{ u.username }}');">UnFollow</a>
+                            {% else %}
+                                <a class="btn btn-outline-primary btn-sm" onclick="follow('{{ u.username }}');">Follow</a>
                             {% endif %}
                         </form>
-                        </div>
                     </div>
+
+
+
+
                 </div>
             </div>
         </div>
@@ -70,7 +71,7 @@
                 data: data,
                 success: (data) => {
                     if (data.status === 'ok') {
-                        location.reload();
+
                     } else {
                         alert(data.message);
                     }
@@ -86,7 +87,7 @@
                 data: data,
                 success: (data) => {
                     if (data.status === 'ok') {
-                        location.reload();
+
                     } else {
                         alert(data.message);
                     }
