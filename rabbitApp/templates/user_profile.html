@@ -27,9 +27,9 @@
                 {% endif %}
             </div>
             {% if post.user == request.user %}
-            <div class="card-body">
+            <div class="card-body" >
                 <div class="float-right">
-                    <button class="btn btn-primary btn-sm my-0 ml-3" type="button" onclick="deletePost('{{ post.id }}')">Delete</button>
+                    <a href="#" class="my-1" onclick="deletePost('{{ post.id }}')"><i class="fas fa-trash cyan-text"></i></a>
                 </div>
             </div>
             {% endif %}
