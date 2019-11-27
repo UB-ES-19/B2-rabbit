@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'deleteModal.html' %}
 
 {% block content-body %}
     {% for post in lastPost %}
@@ -34,4 +34,5 @@
             </div>
         </div>
     {% endfor %}
+    {% include 'confirm_delete.html' %}
 {% endblock %}

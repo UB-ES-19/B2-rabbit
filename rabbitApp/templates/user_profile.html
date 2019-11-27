@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'subsfollow.html' %}
 {% block content-body %}
     {% for post in posts %}
        <div class="card mb-4">
@@ -96,28 +96,3 @@
     </div>
 {% endblock sidebar %}
 
-{% block more-scripts %}
-    <script>
-    function deletePost(id) {
-        var uri = location.protocol + '//' + location.host + "/delete/" + id;
-        $('#yes_btn').click(function () {
-           $.ajax({
-               method : 'POST',
-               url: uri,
-               data:{
-                   'csrfmiddlewaretoken':'{{ csrf_token }}',
-               },
-               success: (data) =>{
-                   if(data.status === 'ok'){
-                       location.reload();
-                   }
-                   else if(data.status === 'error'){
-                       alert(data.message);
-                   }
-               }
-           });
-        });
-        $('#modalConfirmDelete').modal('show');
-    }
-    </script>
-{% endblock %}

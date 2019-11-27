@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'subsfollow.html' %}
 
 {% block content-body %}
 
@@ -58,39 +58,4 @@
             </div>
         </div>
     {% endfor %}
-{% endblock %}
-{% block more-scripts %}
-    <script>
-    var follow = (username) => {
-        let data = $('#' + username + 'form').serialize() + "&username=" + username;
-             $.ajax({
-                method: 'POST',
-                url: "{% url 'follow' %}",
-                data: data,
-                success: (data) => {
-                    if (data.status === 'ok') {
-                        location.reload();
-                    } else {
-                        alert(data.message);
-                    }
-                }
-            });
-        };
-
-    var suscribe = (name) => {
-        let data = $('#' + name + 'form').serialize() + "&name=" + name;
-             $.ajax({
-                method: 'POST',
-                url: "{% url 'suscribe' %}",
-                data: data,
-                success: (data) => {
-                    if (data.status === 'ok') {
-                        location.reload();
-                    } else {
-                        alert(data.message);
-                    }
-                }
-            });
-        };
-    </script>
 {% endblock %}
