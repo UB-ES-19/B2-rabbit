@@ -48,6 +48,13 @@
         <div class="card-body">
             <p class="card-text"> This is <b>{{user}}</b> rabbit profile page. Here you'll find all post and information regarding the user</p>
         </div>
+        {% if request.user != user %}
+        <div class="card-body">
+            <a  class="my-1"  href=""><i class="fas fa-user-friends small cyan-text"></i>
+            <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">FOLLOW TODO</button>
+            </a>
+        </div>
+    {% endif %}
     </div>
 
     {% if request.user == user %}

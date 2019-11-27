@@ -33,10 +33,12 @@
                         Popular
                     </a>
                     <div class="dropdown-menu dropdown-primary">
+                    {% if request.user.is_authenticated %}
                         <a class="dropdown-item" href="{% url 'profile' user  %}" >
                             My Profile
                         </a>
-                        <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">MY COMMUNITIES</li>
+                    {%  endif %}
+                        <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">ALL COMMUNITIES</li>
                         {% for warren in warrens %}
                             <a class="dropdown-item" href="{% url 'warren' warren.name  %}" >
                             {% if warren.profile_img %}
@@ -45,6 +47,7 @@
                             w/{{ warren.name | safe }}
                             </a>
                         {% endfor %}
+                        {% if request.user.is_authenticated %}
                         <li class="dropdown-header " style="font-size: 10px;padding-left: 10px">OTHER</li>
                         <li class="nav-item" style="margin-bottom: 10px">
                             <a  class="my-1" href="{% url 'submit' %}" ><i class="fas fa-pen cyan-text"></i>
@@ -52,10 +55,11 @@
                             </a>
                         </li>
                         <li class="nav-item" style="margin-bottom: 10px">
-                            <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-plus-circle cyan-text"></i></i>
+                            <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-plus-circle cyan-text"></i>
                                 Create Warren
                             </a>
                         </li>
+                        {% endif %}
                      </div>
                 </a>
          </div>

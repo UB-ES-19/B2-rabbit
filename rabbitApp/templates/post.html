@@ -3,18 +3,19 @@
 {% block content-body %}
     <div class="card mb-4">
             <div class="card-body">
+            <p class="card-text text-muted h6">
             {% if post.warren %}
-                <p class="card-text text-muted h6">
                     <a  class="card-text text-muted h6" href="{% url 'warren' post.warren.name %}">
                         {% if post.warren.profile_img %}
                         <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
                         {% endif %}
                         <b>w/{{ post.warren.name }}</b>
                     </a>
+                {% endif %}
                         • Posted by <a class="card-text text-muted h6" href="{% url 'profile' post.user %}"><b>r/{{ post.user }}</b></a>
                         at {{ post.creation_date }}
                 </p>
-            {% endif %}
+
                 <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
                 {% if post.description %}
                     <p class="card-text">{{ post.description | safe }}</p>
@@ -77,44 +78,43 @@
             {% endif %}
             <b>w/{{ post.warren.name }}</b>
          </a>
+         <div class="card my-4">
+            <div class="card-body">
+                <p class="card-text">Welcome to <b>w/{{ post.warren.name }}</b>.
+                <p class="card-text">{{ post.warren.description | safe }}</p>
+                <p class="card-text"> Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
+                <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+                <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+                </a>
+            </div>
     {% else %}
         <a  class="card-header text-muted h5" href="{% url 'profile' post.user.username %}">
             <b>r/{{ post.user.username }}</b>
-         </a>
-    {% endif %}
+        </a>
         <div class="card my-4">
-            {% if post.warren %}
-                <div class="card-body">
-                    <p class="card-text">Welcome to <b>w/{{ post.warren.name }}</b>.
-                    <p class="card-text">{{ post.warren.description | safe }}</p>
-                    <p class="card-text"> Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
-                    <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
-                        <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
-                    </a>
-                </div>
-                <div class="card-body">
-                    <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-plus-circle cyan-text"></i>
-                    <button class="btn btn-primary btn-sm my-0 ml-3" type="button">SUBSCRIBE TODO</button>
-                    </a>
-                </div>
-            {% else %}
-                <div class="card-body">
-                    <p class="card-text">Autor: <b>r/{{ post.user.username }}</b>.
-                    <p class="card-text">{{ post.warren.description | safe }}</p>
-                    <p class="card-text"> You can follow this user to keep in touch with their posts.</p>
-                    <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
-                        <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
-                    </a>
-                </div>
-                <div class="card-body">
-                    <a  class="my-1" href="{% url 'warren_submit' %}"><i class="fas fa-plus-circle cyan-text"></i>
-                    <button class="btn btn-primary btn-sm my-0 ml-3" type="button">FOLLOW</button>
-                    </a>
-                </div>
-            {% endif %}
-
-
+        <div class="card-body">
+            <p class="card-text">Welcome to <b>r/{{ post.user.username }}</b>.
+            <p class="card-text">{{ post.warren.description | safe }}</p>
+            <p class="card-text"> Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
+            <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+            </a>
         </div>
+    {% endif %}
+    {% if post.warren %}
+    <div class="card-body">
+        <a  class="my-1"  href=""><i class="fas fa-users small cyan-text"></i>
+        <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">SUBSCRIBE TODO</button>
+        </a>
+    </div>
+    {% else %}
+    <div class="card-body">
+        <a  class="my-1"  href=""><i class="fas fa-user-friends small cyan-text"></i>
+        <button class= "btn btn-sm btn-outline-primary my-0 ml-3" type="button">FOLLOW TODO</button>
+        </a>
+    </div>
+    {%  endif %}
+    </div>
     <div class="card my-4">
             <h5 class="card-header">Community rules</h5>
         <div class="card-body">

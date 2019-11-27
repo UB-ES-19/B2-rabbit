@@ -12,11 +12,14 @@
             <div class="card mb-4">
             <form action="{% url 'comment' post.id node.value.id  %}" method="post">
                 {% csrf_token %}
-                {{ comment_form.text}}
-
-                <div class = "mb-3">
-                <button class="btn btn-sm my-0 btn-outline-primary waves-effect waves-light" type="cancel" onclick="showReply({{ node.value.id }})" >CANCEL</button>
+                <div class = "mb-1">
+                    {{ comment_form.text}}
+                </div>
+                <div class = "card mb-3 float-right">
+                    <div class = " mb-3 float-right">
+                <button class="btn btn-sm my-0 btn-outline-primary waves-effect waves-light"  type="cancel" onclick="showReply({{ node.value.id }})" >CANCEL</button>
                 <button class="btn btn-primary btn-sm my-0 ml-3" type="submit">COMMENT</button>
+                    </div>
                 </div>
             </form>
             </div>
