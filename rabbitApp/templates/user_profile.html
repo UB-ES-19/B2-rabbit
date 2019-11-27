@@ -49,6 +49,7 @@
         <div class="card-body">
             <p class="card-text"> This is <b>{{user}}</b> rabbit profile page. Here you'll find all post and information regarding the user</p>
         </div>
+        {% if request.user.is_authenticated %}
         {% if request.user != user %}
         <div class="card-body">
             <form id="{{ user.username }}form">
@@ -81,6 +82,7 @@
             </a>
         </div>
     </div>
+    {% endif %}
     {% endif %}
 
     <div class="card my-4">
