@@ -24,13 +24,25 @@
                 {% elif post.link %}
                     <a href={{ post.link }}>{{ post.link }}</a>
                 {% endif %}
-                {% if post.user == request.user %}
 
-                    <div class="float-right">
-                        <a href="#" class="my-1" onclick="deletePost('{{ post.id }}')"><i class="fas fa-trash small cyan-text"></i></a>
+            </div>
+            <div class="card-body" style="padding-top: 0">
+
+                <div class="d-flex" >
+                    <div class="button" >
+                        <a href="#" class="my-1" ><i class="fas fa-share small grey-text"> Share </i></a>
                     </div>
+                    <div class="button" style="margin-left: 10px" >
+                        <a href="#" class="my-1" ><i class="fas fa-flag small grey-text"> Report </i></a>
+                    </div>
+                    {% if post.user == request.user %}
+                        <div class="button" style="margin-left: 10px">
+                            <a href="#" class="my-1" onclick="deletePost('{{ post.id }}')"><i class="fas fa-trash small grey-text"> Delete</i></a>
+                        </div>
+                    {% endif %}
 
-                {% endif %}
+                </div>
+
             </div>
         </div>
     {% endfor %}
