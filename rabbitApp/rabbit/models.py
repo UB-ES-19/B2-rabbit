@@ -50,9 +50,16 @@ class Follower(models.Model):
         unique_together = ('follower', 'following')
 
 
-class Suscribe(models.Model):
-    suscriber = models.ForeignKey(User, related_name='suscribing', on_delete=models.CASCADE)
-    suscribing = models.ForeignKey(Warren, related_name='suscriber', on_delete=models.CASCADE)
+class Subscribe(models.Model):
+    subscriber = models.ForeignKey(User, related_name='suscribing', on_delete=models.CASCADE)
+    subscribing = models.ForeignKey(Warren, related_name='suscriber', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('suscribing', 'suscriber')
+        unique_together = ('subscribing', 'subscriber')
+
+
+class Score(models.Model):
+    score = models.BinaryField()
+    post = models.ForeignKey(Post, related_name='scores', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='scores', on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, null=True, related_name='scores', on_delete=models.CASCADE)

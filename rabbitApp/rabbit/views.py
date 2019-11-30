@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm, CommentForm
-from rabbit.models import Post, Warren, Follower, Comment, Suscribe
+from rabbit.models import Post, Warren, Follower, Comment, Subscribe
 
 
 # Create your views here.
@@ -52,7 +52,7 @@ def warren(request, name):
         context["warren"] = w
         context["posts"] = Post.objects.filter(warren=w.name).order_by('-creation_date')[:30]
         if request.user.is_authenticated:
-            suscribing = get_suscribing(request.user)
+            suscribing = get_subscribing(request.user)
             context['suscribing'] = [warren for warren in warrens if suscribing.filter(suscribing=warren)]
         return render(request, 'warren_view.html', context)
 
@@ -194,7 +194,7 @@ def search(request):
     }
     if request.user.is_authenticated:
         following = get_following(request.user)
-        suscribing = get_suscribing(request.user)
+        suscribing = get_subscribing(request.user)
         context['following'] = [user for user in result_u if following.filter(following=user)]
         context['suscribing'] = [warren for warren in result_w if suscribing.filter(suscribing=warren)]
     return render(request, 'search.html', context)
@@ -259,7 +259,7 @@ def post_view(request, id_post):
     }
     if request.user.is_authenticated:
         following = get_following(request.user)
-        suscribing = get_suscribing(request.user)
+        suscribing = get_subscribing(request.user)
         context['following'] = [user for user in users if following.filter(following=user)]
         context['suscribing'] = [warren for warren in warrens if suscribing.filter(suscribing=warren)]
     return render(request, 'post.html', context)
@@ -282,21 +282,23 @@ def comment(request, id_post, id_comment = None):
         return JsonResponse(status='200', data={'status': 'error', 'message': form.errors})
     return JsonResponse(status='200', data={'status': 'error', 'message': 'only post page'})
 
+
 @login_required()
-def suscribe(request):
+def subscribe(request):
     if request.method == "POST":
         try:
             warren = Warren.objects.get(name=request.POST["name"])
             user = User.objects.get(username=request.user.username)
-            suscriber = user.suscribing.filter(suscribing=warren)
-            if suscriber:
-                suscriber.delete()
+            subscriber = user.suscribing.filter(suscribing=warren)
+            if subscriber:
+                subscriber.delete()
             else:
-                user.suscribing.add(Suscribe(suscribing=warren), bulk=False)
+                user.suscribing.add(Subscribe(suscribing=warren), bulk=False)
             return JsonResponse(status='200', data={'status': 'ok'})
         except Exception as ex:
             return JsonResponse(status='200', data={'status': 'error', 'message': str(ex)})
 
 
-def get_suscribing(user):
+def get_subscribing(user):
     return user.suscribing.all()
+
