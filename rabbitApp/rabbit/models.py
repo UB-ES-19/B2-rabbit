@@ -59,7 +59,10 @@ class Subscribe(models.Model):
 
 
 class Score(models.Model):
-    score = models.BinaryField()
+    value = models.BinaryField()
     post = models.ForeignKey(Post, related_name='scores', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='scores', on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, null=True, related_name='scores', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (['user', 'post', 'comment'])
