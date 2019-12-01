@@ -3,6 +3,15 @@
     <div class="card-body">
     <p class="card-text text-muted h6"><a class="card-text text-muted h6" href="{{node.value.user}}">
         <b>{{node.value.user}}</b></a> at {{node.value.creation_date}}</p><p>{{ node.value.text| safe}}</p>
+        {{ node.value.get_score }}
+        <form method="post" action="{% url 'vote' post.id node.value.id %}">
+            {% csrf_token %}
+            <input type="radio" id="{{ node.value.id }}rTrue" name="score" value="True">
+            <label for="{{ node.value.id }}rTrue">Suki</label>
+            <input type="radio" id="{{ node.value.id }}rFalse" name="score" value="False">
+            <label for="{{ node.value.id }}rFalse">Kirai</label>
+            <button type="submit" class="btn btn-sm">Vote</button>
+        </form>
     </div>
     </div>
 

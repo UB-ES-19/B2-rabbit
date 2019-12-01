@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Warren, Follower, Suscribe
+from .models import Post, Warren, Follower, Subscribe
 
 # Register your models here.
 
@@ -7,4 +7,4 @@ from .models import Post, Warren, Follower, Suscribe
 admin.site.register(Post)
 admin.site.register(Warren)
 admin.site.register(Follower)
-admin.site.register(Suscribe)
+admin.site.register(Subscribe)

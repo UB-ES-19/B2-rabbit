@@ -41,7 +41,9 @@ urlpatterns = [
     path('p/<int:id_post>', views.post_view, name='post'),
     path('comment/<int:id_post>/', views.comment, name='comment'),
     path('comment/<int:id_post>/<int:id_comment>', views.comment, name='comment'),
-    path('suscribe/', views.suscribe, name='suscribe')
+    path('suscribe/', views.subscribe, name='suscribe'),
+    path('vote/<int:id_post>/', views.vote, name='vote'),
+    path('vote/<int:id_post>/<int:id_comment>', views.vote, name='vote'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
