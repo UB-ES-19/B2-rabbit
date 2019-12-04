@@ -3,7 +3,7 @@ from distutils.util import strtobool
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -185,12 +185,15 @@ def search(request):
     if query:
         result_w = Warren.objects.filter(Q(name__contains=query) | Q(description__contains=query))
         result_u = User.objects.filter(Q(username__contains=query))
+        result_p = Post.objects.filter(Q(title__contains=query) | Q(warren__name__contains=query) |
+                                       Q(link__contains=query))
     else:
         return index(request)
     context = {
         'lastPost': result_w,
         'users': result_u,
-        'warrens': Warren.objects.all()
+        'warrens': Warren.objects.all(),
+        'posts': result_p
     }
     if request.user.is_authenticated:
         following = get_following(request.user)
@@ -245,6 +248,19 @@ def make_tree(all_comments, c, parent):
 def post_view(request, id_post):
     post = get_object_or_404(Post, id=id_post)
     all_comments = post.comments.all()
+    order = "Old"
+    if request.method == "POST":
+        order = request.POST['drop1']
+
+    if order == "Old":
+        all_comments = all_comments.order_by('creation_date')
+    elif order == "New":
+        all_comments = all_comments.order_by('-creation_date')
+    else:
+        all_comments = all_comments.annotate(likes=Count('scores', filter=Q(scores__value=True)) -
+                                             Count('scores', filter=Q(scores__value=False))).order_by('-likes')
+
+
     root = Node(None, None)
     for c in all_comments.filter(parent=None):
         make_tree(all_comments, c, root)
