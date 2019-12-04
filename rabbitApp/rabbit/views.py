@@ -248,7 +248,7 @@ def make_tree(all_comments, c, parent):
 def post_view(request, id_post):
     post = get_object_or_404(Post, id=id_post)
     all_comments = post.comments.all()
-    order = "Old"
+    order = "New"
     if request.method == "POST":
         order = request.POST['drop1']
 
@@ -259,7 +259,6 @@ def post_view(request, id_post):
     else:
         all_comments = all_comments.annotate(likes=Count('scores', filter=Q(scores__value=True)) -
                                              Count('scores', filter=Q(scores__value=False))).order_by('-likes')
-
 
     root = Node(None, None)
     for c in all_comments.filter(parent=None):

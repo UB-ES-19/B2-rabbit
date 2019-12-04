@@ -61,6 +61,7 @@
     <form method = "post" action = "{% url 'post' post.id %}" >
         {% csrf_token %}
             <select name = "drop1" onChange="form.submit()"; >
+                <option selected="selected" disabled>Order by:</option>
                 <option value="Old">Old</option>
                 <option value="New">New</option>
                 <option value="Top">Top</option>
