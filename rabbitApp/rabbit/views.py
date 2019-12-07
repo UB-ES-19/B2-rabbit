@@ -1,3 +1,5 @@
+from itertools import count
+
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -7,7 +9,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm, CommentForm
-from rabbit.models import Post, Warren, Follower, Comment, Suscribe
+from rabbit.models import Post, Warren, Follower, Comment, Suscribe, Report
 
 
 # Create your views here.
@@ -300,3 +302,18 @@ def suscribe(request):
 
 def get_suscribing(user):
     return user.suscribing.all()
+
+@login_required()
+def report(request, id_post):
+    try:
+        user = User.objects.get(username=request.user.username)
+        post = get_object_or_404(Post, id=id_post)
+        d_cause = request.POST.get('drpdwn')
+        report = Report(cause=d_cause, post=post, user=user)
+        report.save()
+        num_reports = len(Report.objects.filter(Q(post=id_post) & Q(cause=d_cause)))
+        if num_reports >= 10:
+            post.delete()
+        return JsonResponse(status='200', data={'status': 'ok'})
+    except Exception as ex:
+        return JsonResponse(status='200', data={'status': 'error', 'message': str(ex)})

@@ -56,3 +56,11 @@ class Suscribe(models.Model):
 
     class Meta:
         unique_together = ('suscribing', 'suscriber')
+
+class Report(models.Model):
+    cause = models.IntegerField()
+    post = models.ForeignKey(Post, related_name='reported', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='reporting', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (['user', 'post'])
