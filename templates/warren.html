@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content-body %}
+    <div class="mt-4">
+        <div class="row">
+            <div class="col-xl-9">
+                <h3><b>Create a warren</b></h3>
+                <hr>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h5><b>Name *</b></h5>
+                    <p>Warren names including capitalization cannot be changed</p>
+                    {{ form_warren.name|add_class:"form-control mt-2 mb-2" }}
+                    {% if form_warren.name.errors %}
+                        {% include 'fieldError.html' with errors=form_warren.name.errors %}
+                    {% endif %}
+                    <h5><b>Description *</b></h5>
+                    <p>This is how new members come to understand your community</p>
+                    {{ form_warren.description|add_class:"form-control mt-2 mb-2" }}
+                    {% if form_warren.description.errors %}
+                        {% include 'fieldError.html' with errors=form_warren.description.errors %}
+                    {% endif %}
+                    <h5><b>Profile Image *</b></h5>
+                    {{ form_warren.profile_img | attr:'accept:image/*' }}
+                        {% if form_warren.profile_img.errors %}
+                            {% include 'fieldError.html' with errors=form_warren.profile_img.errors %}
+                          {% endif %}
+                          <div class="mb-2 mt-2" >
+                            <div class="row">
+                                <div class="col-12" id="profile_img_show">
+                                </div>
+                            </div>
+                          </div>
+
+                    <h5><b>Landscape Image *</b></h5>
+                        {{ form_warren.landscape_img | attr:'accept:image/*' }}
+                            {% if form_warren.landscape_img.errors %}
+                                {% include 'fieldError.html' with errors=form_warren.landscape_img.errors %}
+                              {% endif %}
+                              <div class="mb-2 mt-2" >
+                                <div class="row">
+                                    <div class="col-12" id="landscape_img_show">
+                                    </div>
+                                </div>
+                          </div>
+                  <button class="btn btn-blue btn-sm float-right" type="submit">CREATE WARREN</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block more-scripts %}
+     <script type="text/javascript">
+        var ckEditor;
+        $(document).ready(() => {
+            ClassicEditor
+            .create( document.querySelector( '#id_description' ), {
+                 toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+
+            } )
+            .then( editor => {
+                    ckEditor = editor;
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+
+            $("#id_profile_img").change(function () {
+                filePreview(this, "profile_img_show");
+            });
+
+            $("#id_landscape_img").change(function () {
+                filePreview(this, "landscape_img_show");
+            });
+
+        });
+
+        var filePreview = (input, imshow) => {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#'+'img_show '+ 'embed').remove();
+                    $('#' + imshow+'').html('<embed src="'+e.target.result+'" class="mx-auto d-block" width="450" height="300">');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+    </script>
+{% endblock %}
