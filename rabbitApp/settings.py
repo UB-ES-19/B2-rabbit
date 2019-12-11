@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from builtins import locals
+
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
