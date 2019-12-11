@@ -341,7 +341,7 @@ def vote(request, id_post, id_comment=None):
             else:
                 score = Score(post=post, user=request.user, value=value)
                 score.comment = com
-            score.save()
+                score.save()
             return JsonResponse(status='200', data={'status': 'ok'})
         return JsonResponse(status='200', data={'status': 'error', 'message': 'Not valid Value'})
     return JsonResponse(status='200', data={'status': 'error', 'message': 'GET method not supported'})
