@@ -1,1 +1,1 @@
-web: gunicorn Rabbit.wsgi
+web: gunicorn rabbit.wsgi
