@@ -33,5 +33,22 @@
                 }
             });
         };
+      var  enviarVotacio = (id,votacio) =>{
+            let data = $('#' + id + 'form').serialize() +  "&score=" + votacio;
+            var uri = location.protocol + '//' + location.host + "/vote/" + id + '/';
+
+            $.ajax({
+                method: 'POST',
+                url: uri,
+                data: data,
+                success: (data) => {
+                    if (data.status == 'ok'){
+                        document.getElementById("p1"+id).innerHTML =  data.score;
+                    } else{
+                        alert(data.message)
+                    }
+                }
+            })
+        }
     </script>
 {% endblock %}
