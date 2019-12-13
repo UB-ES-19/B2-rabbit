@@ -23,8 +23,8 @@ def index(request):
         'warrens': warrens,
     }
     if request.user.is_authenticated:
-        scores_true = request.user.scores.filter(post__in=posts, value=True, comment=None)
-        scores_false = request.user.scores.filter(post__in=posts, value=False, comment=None)
+        scores_true = request.user.scores.filter(post__in=lastPost, value=True, comment=None)
+        scores_false = request.user.scores.filter(post__in=lastPost, value=False, comment=None)
         context['scores_true'] = [s.post for s in scores_true]
         context['scores_false'] = [s.post for s in scores_false]
 
