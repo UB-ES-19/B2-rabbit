@@ -20,8 +20,14 @@ def index(request):
     warrens = Warren.objects.all()
     context = {
         'lastPost': lastPost,
-        'warrens': warrens
+        'warrens': warrens,
     }
+    if request.user.is_authenticated:
+        scores_true = request.user.scores.filter(post__in=posts, value=True, comment=None)
+        scores_false = request.user.scores.filter(post__in=posts, value=False, comment=None)
+        context['scores_true'] = [s.post for s in scores_true]
+        context['scores_false'] = [s.post for s in scores_false]
+
     return render(request, 'home.html', context)
 
 
@@ -47,13 +53,18 @@ def warren(request, name):
     context = {}
     try:
         w = Warren.objects.get(name=name)
+        posts = Post.objects.filter(warren=w.name).order_by('-creation_date')[:30]
         warrens = Warren.objects.all()
         context["warrens"] = warrens
         context["warren"] = w
-        context["posts"] = Post.objects.filter(warren=w.name).order_by('-creation_date')[:30]
+        context["posts"] = posts
         if request.user.is_authenticated:
             subscribing = get_subscribing(request.user)
             context['suscribing'] = [warren for warren in warrens if subscribing.filter(subscribing=warren)]
+            scores_true = request.user.scores.filter(post__in=posts, value=True, comment=None)
+            scores_false = request.user.scores.filter(post__in=posts, value=False, comment=None)
+            context['scores_true'] = [s.post for s in scores_true]
+            context['scores_false'] = [s.post for s in scores_false]
         return render(request, 'warren_view.html', context)
 
     except:
@@ -66,12 +77,17 @@ def profile(request, name):
         r = User.objects.get(username=name)
         users = User.objects.all()
         warrens = Warren.objects.all()
+        posts = Post.objects.filter(user=r).order_by('-creation_date')[:30]
         context["warrens"] = warrens
         context["user"] = r
-        context["posts"] = Post.objects.filter(user=r).order_by('-creation_date')[:30]
+        context["posts"] = posts
         if request.user.is_authenticated:
             following = get_following(request.user)
             context['following'] = [user for user in users if following.filter(following=user)]
+            scores_true = request.user.scores.filter(post__in=posts, value=True, comment=None)
+            scores_false = request.user.scores.filter(post__in=posts, value=False, comment=None)
+            context['scores_true'] = [s.post for s in scores_true]
+            context['scores_false'] = [s.post for s in scores_false]
         return render(request, 'user_profile.html', context)
     except:
         return redirect(index)
@@ -277,6 +293,10 @@ def post_view(request, id_post):
         subscribing = get_subscribing(request.user)
         context['following'] = [user for user in users if following.filter(following=user)]
         context['suscribing'] = [warren for warren in warrens if subscribing.filter(subscribing=warren)]
+        scores_true = request.user.scores.filter(post=post, value=True)
+        scores_false = request.user.scores.filter(post=post, value=False)
+        context['scores_true'] = [s.comment for s in scores_true]
+        context['scores_false'] = [s.comment for s in scores_false]
     return render(request, 'post.html', context)
 
 

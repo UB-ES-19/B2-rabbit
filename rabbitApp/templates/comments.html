@@ -6,6 +6,11 @@
                     <form id="{{ post.id }}{{ node.value.id }}form">
                         {% csrf_token %}
                         <a class="card-text"  id = "buttonup" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','True')"><i class="fas fa-arrow-up small grey-text" id="arrowup"></i></a>
+                        {% if node.value in scores_true %}
+                            SIUU
+                        {% elif node.value in scores_false %}
+                            NOOO
+                        {% endif %}
                         <p class="card-text" id="p1{{ post.id }}{{ node.value.id }}" style="margin-bottom: 0">{{  node.value.get_score }}</p>
                         <a class="card-text" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','False')" ><i class="fas fa-arrow-down small grey-text"></i></a>
                     </form>
