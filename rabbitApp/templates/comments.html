@@ -5,14 +5,22 @@
                 <div class="card-body">
                     <form id="{{ post.id }}{{ node.value.id }}form">
                         {% csrf_token %}
-                        <a class="card-text"  id = "buttonup" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','True')"><i class="fas fa-arrow-up small grey-text" id="arrowup"></i></a>
                         {% if node.value in scores_true %}
-                            SIUU
+                            <a class="card-text"  id = "buttonup" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','True')"><i class="fas fa-arrow-up small orange-text" id="{{ post.id }}{{ node.value.id }}arrowup"></i></a>
+                            <p class="card-text" id="p1{{ post.id }}{{ node.value.id }}" style="margin-bottom: 0">{{  node.value.get_score }}</p>
+                            <a class="card-text" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','False')" ><i class="fas fa-arrow-down small grey-text" id="{{ post.id }}{{ node.value.id }}arrowdown"></i></a>
+
                         {% elif node.value in scores_false %}
-                            NOOO
+                            <a class="card-text"  id = "buttonup" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','True')"><i class="fas fa-arrow-up small grey-text" id="{{ post.id }}{{ node.value.id }}arrowup"></i></a>
+                            <p class="card-text" id="p1{{ post.id }}{{ node.value.id }}" style="margin-bottom: 0">{{  node.value.get_score }}</p>
+                            <a class="card-text" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','False')" ><i class="fas fa-arrow-down small orange-text" id="{{ post.id }}{{ node.value.id }}arrowdown"></i></a>
+
+                        {% else %}
+                            <a class="card-text"  id = "buttonup" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','True')"><i class="fas fa-arrow-up small grey-text" id="{{ post.id }}{{ node.value.id }}arrowup"></i></a>
+                            <p class="card-text" id="p1{{ post.id }}{{ node.value.id }}" style="margin-bottom: 0">{{  node.value.get_score }}</p>
+                            <a class="card-text" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','False')" ><i class="fas fa-arrow-down small grey-text" id="{{ post.id }}{{ node.value.id }}arrowdown"></i></a>
+
                         {% endif %}
-                        <p class="card-text" id="p1{{ post.id }}{{ node.value.id }}" style="margin-bottom: 0">{{  node.value.get_score }}</p>
-                        <a class="card-text" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','False')" ><i class="fas fa-arrow-down small grey-text"></i></a>
                     </form>
                 </div>
 
@@ -73,6 +81,13 @@
                 success: (data) => {
                     if (data.status == 'ok'){
                         document.getElementById("p1"+id+id_com).innerHTML =  data.score;
+                        if(votacio == 'True') {
+                            $('#'+id+id_com+'arrowup').toggleClass("fas fa-arrow-up small grey-text fas fa-arrow-up small orange-text ");
+                            document.getElementById(id+id_com+"arrowdown").setAttribute("class", "fas fa-arrow-down small grey-text");
+                        }else{
+                            $('#'+id+id_com+'arrowdown').toggleClass("fas fa-arrow-up small grey-text fas fa-arrow-up small orange-text ");
+                            document.getElementById(id+id_com+"arrowup").setAttribute("class", "fas fa-arrow-up small grey-text");
+                        }
                     } else{
                         alert(data.message)
                     }
