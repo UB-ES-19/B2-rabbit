@@ -35,7 +35,7 @@ class Post(models.Model):
 
     @property
     def get_score(self):
-        return self.scores.filter(value=True).count() - self.scores.filter(value=False).count()
+        return self.scores.filter(value=True, comment=None).count() - self.scores.filter(value=False, comment=None).count()
 
 
 class Comment(models.Model):
