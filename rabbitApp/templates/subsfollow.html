@@ -36,7 +36,7 @@
       var  enviarVotacio = (id,votacio) =>{
             let data = $('#' + id + 'form').serialize() +  "&score=" + votacio;
             var uri = location.protocol + '//' + location.host + "/vote/" + id + '/';
-
+            var last_update = 0;
             $.ajax({
                 method: 'POST',
                 url: uri,
@@ -44,6 +44,16 @@
                 success: (data) => {
                     if (data.status == 'ok'){
                         document.getElementById("p1"+id).innerHTML =  data.score;
+                        if (votacio == 'True'){
+                            $('#arrowup').toggleClass("fas fa-arrow-up fa-1x grey-text fas fa-arrow-up fa-1x orange-text ");
+                            document.getElementById("arrowdown").setAttribute("class","fas fa-arrow-down fa-1x grey-text");
+
+                        }else{
+                            $('#arrowdown').toggleClass("fas fa-arrow-down fa-1x grey-text fas fa-arrow-down fa-1x orange-text ");
+                            document.getElementById("arrowup").setAttribute("class","fas fa-arrow-up fa-1x grey-text");
+
+
+                        }
                     } else{
                         alert(data.message)
                     }
