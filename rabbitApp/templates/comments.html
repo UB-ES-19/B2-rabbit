@@ -69,6 +69,16 @@
     </ul>
 </li>
 
+<script type="text/javascript">
+    function showReply(nodeId) {
+      var x = document.getElementById(nodeId);
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+</script>
 <script>
    var  enviarVotacioComment = (id,id_com,votacio) =>{
             let data = $('#' + id + id_com+ 'form').serialize() +  "&score=" + votacio;
