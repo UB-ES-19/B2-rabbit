@@ -36,9 +36,7 @@
                             <i class="fas fa-share small grey-text"> Share </i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-center" style="margin-left: -5%;min-width: 30%">
-                            <a class="dropdown-item text-left"  onclick="copyP('http://127.0.0.1:8000{% url 'post' post.id %}')"><i class="fas fa-link small grey-text"> Copy link</i> </a>
-                            <a class="dropdown-item text-left" ><i class="fas fa-code small grey-text"> Embed</i> </a>
-
+                            <a class="dropdown-item text-left"  onclick="copyP('{% url 'post' post.id %}')"><i class="fas fa-link small grey-text"> Copy link</i> </a>
                         </div>
                     </div>
                     <div class="button" style="margin-left: 10px" >
