@@ -43,6 +43,8 @@ urlpatterns = [
     path('comment/<int:id_post>/<int:id_comment>', views.comment, name='comment'),
     path('suscribe/', views.suscribe, name='suscribe'),
     path('report/<int:id_post>/', views.report, name='report'),
+    path('vote/<int:id_post>/', views.vote, name='vote'),
+    path('vote/<int:id_post>/<int:id_comment>', views.vote, name='vote'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

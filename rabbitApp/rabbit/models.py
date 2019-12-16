@@ -33,6 +33,10 @@ class Post(models.Model):
     link = models.URLField(null=True)
     img = models.ImageField(upload_to=get_image_filename_post, null=True)
 
+    @property
+    def get_score(self):
+        return self.scores.filter(value=True, comment=None).count() - self.scores.filter(value=False, comment=None).count()
+
 
 class Comment(models.Model):
     text = models.TextField()
@@ -40,6 +44,10 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='children')
+
+    @property
+    def get_score(self):
+        return self.scores.filter(value=True).count() - self.scores.filter(value=False).count()
 
 
 class Follower(models.Model):
@@ -50,9 +58,9 @@ class Follower(models.Model):
         unique_together = ('follower', 'following')
 
 
-class Suscribe(models.Model):
-    suscriber = models.ForeignKey(User, related_name='suscribing', on_delete=models.CASCADE)
-    suscribing = models.ForeignKey(Warren, related_name='suscriber', on_delete=models.CASCADE)
+class Subscribe(models.Model):
+    subscriber = models.ForeignKey(User, related_name='subscribing', on_delete=models.CASCADE)
+    subscribing = models.ForeignKey(Warren, related_name='subscriber', on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('suscribing', 'suscriber')
@@ -64,3 +72,13 @@ class Report(models.Model):
 
     class Meta:
         unique_together = (['user', 'post'])
+
+
+class Score(models.Model):
+    value = models.BooleanField()
+    post = models.ForeignKey(Post, related_name='scores', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='scores', on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, null=True, related_name='scores', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (['user', 'post', 'comment'])

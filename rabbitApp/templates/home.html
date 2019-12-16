@@ -9,9 +9,19 @@
                     <div class="card-body">
                         <form id="{{ post.id }}form">
                             {% csrf_token %}
-                             <a class="card-text" id = "buttonup" onclick="enviarVotacio('{{ post.id }}','True')" style="margin-left: -2px"><i class="fas fa-arrow-up fa-1x grey-text"></i></a>
-                             <p class="card-text" id="p1" style="margin-bottom: 0"><b>5</b></p>
-                             <a class="card-text" onclick="enviarVotacio('{{ post.id }}','False')" style="margin-left: -2px"><i class="fas fa-arrow-down fa-1x grey-text"></i></a>
+                            {% if post in scores_true %}
+                                <a class="card-text" id = "buttonup" onclick="enviarVotacio('{{ post.id }}','True')" style="margin-left: -2px"><i class="fas fa-arrow-up fa-1x orange-text" id="arrowup"></i></a>
+                                <p class="card-text" id="p1{{ post.id }}" style="margin-bottom: 0">{{ post.get_score}}</p>
+                                <a class="card-text" onclick="enviarVotacio('{{ post.id }}','False')" style="margin-left: -2px"><i class="fas fa-arrow-down fa-1x grey-text" id="arrowdown"></i></a>
+                            {% elif post in scores_false %}
+                                <a class="card-text" id = "buttonup" onclick="enviarVotacio('{{ post.id }}','True')" style="margin-left: -2px"><i class="fas fa-arrow-up fa-1x grey-text" id="arrowup"></i></a>
+                                <p class="card-text" id="p1{{ post.id }}" style="margin-bottom: 0">{{ post.get_score}}</p>
+                                <a class="card-text" onclick="enviarVotacio('{{ post.id }}','False')" style="margin-left: -2px"><i class="fas fa-arrow-down fa-1x orange-text" id="arrowdown"></i></a>
+                            {% else %}
+                                <a class="card-text" id = "buttonup" onclick="enviarVotacio('{{ post.id }}','True')" style="margin-left: -2px"><i class="fas fa-arrow-up fa-1x grey-text" id="arrowup"></i></a>
+                                <p class="card-text" id="p1{{ post.id }}" style="margin-bottom: 0">{{ post.get_score}}</p>
+                                <a class="card-text" onclick="enviarVotacio('{{ post.id }}','False')" style="margin-left: -2px"><i class="fas fa-arrow-down fa-1x grey-text" id="arrowdown"></i></a>
+                            {% endif %}
                         </form>
                     </div>
 
@@ -73,26 +83,4 @@
     {% endfor %}
     {% include 'confirm_delete.html' %}
     {% include 'select_report.html' %}
-    <script>
-        var  enviarVotacio = (id,votacio) =>{
-            let data = $('#' + id + 'form').serialize() +  "&votacio=" + votacio;
-            var uri = location.protocol + '//' + location.host + "/vote/" + id;
-
-            $.ajax({
-                method: 'POST',
-                url: uri,
-                data: data,
-                success: (data) => {
-                    if (data.status == 'ok'){
-                        document.getElementById("p1").innerHTML = "New text!";
-                        location.reload()
-                    } else{
-                        alert(data.message)
-                    }
-                }
-            })
-        }
-
-    </script>
-
 {% endblock %}
