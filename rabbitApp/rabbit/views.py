@@ -300,8 +300,10 @@ def post_view(request, id_post):
         context['suscribing'] = [warren for warren in warrens if subscribing.filter(subscribing=warren)]
         scores_true = request.user.scores.filter(post=post, value=True)
         scores_false = request.user.scores.filter(post=post, value=False)
-        context['scores_true'] = [s.comment for s in scores_true]
-        context['scores_false'] = [s.comment for s in scores_false]
+        context['scores_true'] = [s.post for s in scores_true.filter(comment=None)]
+        context['scores_false'] = [s.post for s in scores_false.filter(comment=None)]
+        context['scores_true_comment'] = [s.comment for s in scores_true]
+        context['scores_false_comment'] = [s.comment for s in scores_false]
     return render(request, 'post.html', context)
 
 
@@ -382,6 +384,8 @@ def vote(request, id_post, id_comment=None):
                 score = Score(post=post, user=request.user, value=value)
                 score.comment = com
                 score.save()
+            if com:
+                return JsonResponse(status='200', data={'status': 'ok', 'score': com.get_score})
             return JsonResponse(status='200', data={'status': 'ok', 'score': post.get_score})
         return JsonResponse(status='200', data={'status': 'error', 'message': 'Not valid Value'})
     return JsonResponse(status='200', data={'status': 'error', 'message': 'GET method not supported'})

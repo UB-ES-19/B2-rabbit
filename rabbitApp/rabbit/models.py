@@ -47,7 +47,8 @@ class Comment(models.Model):
 
     @property
     def get_score(self):
-        return self.scores.filter(value=True).count() - self.scores.filter(value=False).count()
+        return self.scores.filter(value=True, comment__isnull=False).count() - \
+               self.scores.filter(value=False, comment__isnull=False).count()
 
 
 class Follower(models.Model):
