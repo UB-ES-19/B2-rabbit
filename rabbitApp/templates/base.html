@@ -212,7 +212,7 @@
 
 
 <script type="text/javascript">
-
+    var report_id = -1;
     let modalLoginLoaded = false;
     let modalRegisterLoaded = false;
     let modalRegister = $('#modalRegisterForm');
@@ -249,6 +249,18 @@
                 }
             });
         }
+    }
+
+    function send_report() {
+        $.ajax({
+            method:'POST',
+            url:"{% url 'index' %}report/" + report_id + '/',
+            data: $('#reportForm').serialize(),
+            success:(data)=>{
+                $('#modalselectreport').modal('hide');
+            },
+
+        });
     }
 
 </script>
