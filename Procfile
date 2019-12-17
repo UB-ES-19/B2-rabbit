@@ -1,2 +1,2 @@
 
-web: gunicorn rabbitApp/rabbitApp.wsgi
+web: gunicorn rabbitApp.wsgi
