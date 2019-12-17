@@ -1,2 +1,2 @@
-
+cd rabbitApp
 web: gunicorn rabbitApp.wsgi
