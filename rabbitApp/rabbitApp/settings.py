@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rabbit.apps.RabbitConfig',
     'widget_tweaks',
     'corsheaders',
+    'django_user_agents',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'rabbitApp.urls'
