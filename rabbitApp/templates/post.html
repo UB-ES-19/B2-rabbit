@@ -1,32 +1,9 @@
-{% extends 'subsfollow.html' %}
+{% extends 'deleteModal.html' %}
 
 {% block content-body %}
-    <div class="card mb-4">
-            <div class="card-body">
-            <p class="card-text text-muted h6">
-            {% if post.warren %}
-                    <a  class="card-text text-muted h6" href="{% url 'warren' post.warren.name %}">
-                        {% if post.warren.profile_img %}
-                        <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
-                        {% endif %}
-                        <b>w/{{ post.warren.name }}</b>
-                    </a>
-                {% endif %}
-                        • Posted by <a class="card-text text-muted h6" href="{% url 'profile' post.user %}"><b>r/{{ post.user }}</b></a>
-                        at {{ post.creation_date }}
-                </p>
-
-                <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
-                {% if post.description %}
-                    <p class="card-text">{{ post.description | safe }}</p>
-                {% elif post.img %}
-                    <img src= "{{ post.img.url }}" class="img-fluid" alt="img" />
-                {% elif post.link %}
-                    <a href={{ post.link }}>{{ post.link }}</a>
-                {% endif %}
-            </div>
-        </div>
-
+    {% include "cardpost.html" %}
+    {% include 'confirm_delete.html' %}
+    {% include 'select_report.html' %}
     {% if not request.user.is_authenticated %}
         <div class="card mb-4">
             <div class="card-body">

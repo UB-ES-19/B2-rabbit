@@ -1,0 +1,77 @@
+
+<div class="card mb-4">
+            <div class="row">
+                <div class="col-1" style="margin-left: 0">
+                    <div class="card-body">
+                        <form id="{{ post.id }}form">
+                            {% csrf_token %}
+                            {% if post in scores_true %}
+                                <a class="card-text" id = "buttonup" onclick="enviarVotacio('{{ post.id }}','True')" style="margin-left: -2px"><i class="fas fa-arrow-up fa-1x orange-text" id="arrowup"></i></a>
+                                <p class="card-text" id="p1{{ post.id }}" style="margin-bottom: 0">{{ post.get_score}}</p>
+                                <a class="card-text" onclick="enviarVotacio('{{ post.id }}','False')" style="margin-left: -2px"><i class="fas fa-arrow-down fa-1x grey-text" id="arrowdown"></i></a>
+                            {% elif post in scores_false %}
+                                <a class="card-text" id = "buttonup" onclick="enviarVotacio('{{ post.id }}','True')" style="margin-left: -2px"><i class="fas fa-arrow-up fa-1x grey-text" id="arrowup"></i></a>
+                                <p class="card-text" id="p1{{ post.id }}" style="margin-bottom: 0">{{ post.get_score}}</p>
+                                <a class="card-text" onclick="enviarVotacio('{{ post.id }}','False')" style="margin-left: -2px"><i class="fas fa-arrow-down fa-1x orange-text" id="arrowdown"></i></a>
+                            {% else %}
+                                <a class="card-text" id = "buttonup" onclick="enviarVotacio('{{ post.id }}','True')" style="margin-left: -2px"><i class="fas fa-arrow-up fa-1x grey-text" id="arrowup"></i></a>
+                                <p class="card-text" id="p1{{ post.id }}" style="margin-bottom: 0">{{ post.get_score}}</p>
+                                <a class="card-text" onclick="enviarVotacio('{{ post.id }}','False')" style="margin-left: -2px"><i class="fas fa-arrow-down fa-1x grey-text" id="arrowdown"></i></a>
+                            {% endif %}
+                        </form>
+                    </div>
+
+                </div>
+                <div class="col" style="padding-left: 0;padding-right: 0">
+                    <div class="card-body" style="padding-left: 0">
+                        <p class="card-text text-muted h6">
+                        {% if post.warren %}
+                            <a  class="card-text text-muted h6" href="{% url 'warren' post.warren.name %}">
+                                {% if post.warren.profile_img %}
+                                <img class="img-fluid" src="{{ post.warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
+                                {% endif %}
+                                <b>w/{{ post.warren.name }}</b>
+                            </a>
+                        {% endif %}
+                                • Posted by <a class="card-text text-muted h6" href="{% url 'profile' post.user %}"><b>r/{{ post.user }}</b></a>
+                                at {{ post.creation_date }}
+                        </p>
+                            <a href="{% url 'post' post.id %}"><h2 class="card-title text-muted">{{ post.title | safe }}</h2></a>
+                            {% if post.description %}
+                                <p class="card-text">{{ post.description | safe }}</p>
+                            {% elif post.img %}
+                                <img src= "{{ post.img.url }}" class="img-fluid" alt="img" />
+                            {% elif post.link %}
+                                <a href={{ post.link }}>{{ post.link }}</a>
+                            {% endif %}
+
+                    </div>
+                    <div class="card-body" style="padding-top: 0;padding-left: 0">
+
+                        <div class="d-flex" >
+                            <div class="dropdown">
+                                 <a class="my-1 dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
+                                    aria-haspopup="false" aria-expanded="false">
+                                    <i class="fas fa-share small grey-text"> Share </i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-center" style="margin-left: -5%;min-width: 30%">
+                                    <a class="dropdown-item text-left"  onclick="copyP('http://127.0.0.1:8000{% url 'post' post.id %}')"><i class="fas fa-link small grey-text"> Copy link</i> </a>
+
+                                </div>
+                            </div>
+                            <div class="button" style="margin-left: 10px" >
+                                <a href="#" data-toggle="modal" data-target="#modalselectreport" class="my-1" ><i class="fas fa-flag small grey-text"> Report </i></a>
+                            </div>
+                            {% if post.user == request.user %}
+                                <div class="button" style="margin-left: 10px">
+                                    <a href="#" class="my-1" onclick="deletePost('{{ post.id }}')"><i class="fas fa-trash small grey-text"> Delete</i></a>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>

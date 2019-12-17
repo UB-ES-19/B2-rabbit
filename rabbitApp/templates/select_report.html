@@ -9,19 +9,19 @@
       </div>
 
       <!--Body-->
-      <div class="modal-body">
-          <select class="browser-default custom-select">
-              <option value="" disabled selected>Choose the cause of the report</option>
-              <option value="1">Option 1</option>
-              <option value="2">Option 2</option>
-              <option value="3">Option 3</option>
-          </select>
-      </div>
+        <div class="modal-body">
+            <form method="post" action="{% url 'report' 17 %}">
+                {% csrf_token %}
+                <select class="browser-default custom-select"  name="drpdwn">
+                    <option value="0" disabled selected>Choose the cause of the report</option>
+                    <option value="1">Spam</option>
+                    <option value="2">Incite hate or violence</option>
+                    <option value="3">Sexual or inapropiated content</option>
+                </select>
 
-      <!--Footer-->
-      <div class="modal-footer flex-left">
-        <a href="" class="btn btn-primary" id="yes_btn">Send</a>
-      </div>
+                <input type="submit" value="Send" class="btn btn-primary" id="yes_btn">
+            </form>
+        </div>
     </div>
     <!--/.Content-->
   </div>

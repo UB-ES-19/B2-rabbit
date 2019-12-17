@@ -35,7 +35,7 @@ class Post(models.Model):
 
     @property
     def get_score(self):
-        return self.scores.filter(value=True).count() - self.scores.filter(value=False).count()
+        return self.scores.filter(value=True, comment=None).count() - self.scores.filter(value=False, comment=None).count()
 
 
 class Comment(models.Model):
@@ -64,6 +64,15 @@ class Subscribe(models.Model):
 
     class Meta:
         unique_together = ('subscribing', 'subscriber')
+
+
+class Report(models.Model):
+    cause = models.IntegerField()
+    post = models.ForeignKey(Post, related_name='reported', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='reporting', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (['user', 'post'])
 
 
 class Score(models.Model):
