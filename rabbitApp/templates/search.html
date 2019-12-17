@@ -1,4 +1,4 @@
-{% extends 'subsfollow.html' %}
+{% extends 'deleteModal.html' %}
 
 {% block content-body %}
 
@@ -62,4 +62,6 @@
     {% for post in posts %}
         {% include "cardpost.html" %}
     {% endfor %}
+    {% include 'confirm_delete.html' %}
+    {% include 'select_report.html' %}
 {% endblock %}
