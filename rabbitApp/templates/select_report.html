@@ -10,7 +10,7 @@
 
       <!--Body-->
         <div class="modal-body">
-            <form method="post" action="{% url 'report' 17 %}">
+            <form method="post" id="reportForm">
                 {% csrf_token %}
                 <select class="browser-default custom-select"  name="drpdwn">
                     <option value="0" disabled selected>Choose the cause of the report</option>
@@ -19,7 +19,7 @@
                     <option value="3">Sexual or inapropiated content</option>
                 </select>
 
-                <input type="submit" value="Send" class="btn btn-primary" id="yes_btn">
+                <input type="button" onclick="send_report();" value="Send" class="btn btn-primary" id="yes_btn">
             </form>
         </div>
     </div>
