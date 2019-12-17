@@ -63,7 +63,8 @@ class Subscribe(models.Model):
     subscribing = models.ForeignKey(Warren, related_name='subscriber', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('suscribing', 'suscriber')
+        unique_together = ('subscribing', 'subscriber')
+
 
 class Report(models.Model):
     cause = models.IntegerField()

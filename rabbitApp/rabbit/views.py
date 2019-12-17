@@ -11,7 +11,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm, CommentForm
-from rabbit.models import Post, Warren, Follower, Comment, Suscribe, Report, Score
+from rabbit.models import Post, Warren, Follower, Comment, Subscribe, Report, Score
 
 # Create your views here.
 from rabbit.tree import Node
