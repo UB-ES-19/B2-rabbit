@@ -6,7 +6,7 @@ import sys
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rabbitApp.settings')
-    print (os.path.abspath(__file__))
+    print (os.path.dirname(os.path.abspath(__file__)))
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
