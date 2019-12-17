@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 
 from rabbit.forms import PostForm, LinkPostForm, ImgPostForm, WarrenForm, CommentForm
 from rabbit.models import Post, Warren, Follower, Comment, Subscribe, Report, Score
+from rabbit.models import Post, Warren, Follower, Comment, Subscribe, Score, Log
 
 # Create your views here.
 from rabbit.tree import Node
@@ -123,6 +124,8 @@ def login_user(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                log = Log(user=user, os=request.user_agent.os.family, browser=request.user_agent.browser.family)
+                log.save()
                 return JsonResponse(status='200', data={'status': 'ok'})
             else:
                 context['form_login'] = form

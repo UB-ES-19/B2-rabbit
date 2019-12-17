@@ -83,3 +83,15 @@ class Score(models.Model):
 
     class Meta:
         unique_together = (['user', 'post', 'comment'])
+
+
+class Log(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='log')
+    time = models.DateTimeField(auto_now_add=True)
+    os = models.TextField()
+    browser = models.TextField()
+
+    def __str__(self):
+        return 'User %s connected at %s from %s running on %s' % (self.user.username, self.time.__str__(), self.browser
+                                                                  , self.os)
+

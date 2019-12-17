@@ -31,7 +31,8 @@
               var aux = document.createElement("input");
 
               // Asigna el contenido del elemento especificado al valor del campo
-              aux.setAttribute("value", link);
+              let ref = window.location.host;
+              aux.setAttribute("value", ref + link);
 
               // Añade el campo a la página
               document.body.appendChild(aux);
