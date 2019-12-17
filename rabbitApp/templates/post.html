@@ -1,8 +1,9 @@
-{% extends 'subsfollow.html' %}
+{% extends 'deleteModal.html' %}
 
 {% block content-body %}
     {% include "cardpost.html" %}
-
+    {% include 'confirm_delete.html' %}
+    {% include 'select_report.html' %}
     {% if not request.user.is_authenticated %}
         <div class="card mb-4">
             <div class="card-body">
