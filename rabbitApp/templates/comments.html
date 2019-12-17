@@ -5,12 +5,12 @@
                 <div class="card-body">
                     <form id="{{ post.id }}{{ node.value.id }}form">
                         {% csrf_token %}
-                        {% if node.value in scores_true %}
+                        {% if node.value in scores_true_comment %}
                             <a class="card-text"  id = "buttonup" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','True')"><i class="fas fa-arrow-up small orange-text" id="{{ post.id }}{{ node.value.id }}arrowup"></i></a>
                             <p class="card-text" id="p1{{ post.id }}{{ node.value.id }}" style="margin-bottom: 0">{{  node.value.get_score }}</p>
                             <a class="card-text" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','False')" ><i class="fas fa-arrow-down small grey-text" id="{{ post.id }}{{ node.value.id }}arrowdown"></i></a>
 
-                        {% elif node.value in scores_false %}
+                        {% elif node.value in scores_false_comment %}
                             <a class="card-text"  id = "buttonup" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','True')"><i class="fas fa-arrow-up small grey-text" id="{{ post.id }}{{ node.value.id }}arrowup"></i></a>
                             <p class="card-text" id="p1{{ post.id }}{{ node.value.id }}" style="margin-bottom: 0">{{  node.value.get_score }}</p>
                             <a class="card-text" onclick="enviarVotacioComment('{{ post.id }}','{{node.value.id }}','False')" ><i class="fas fa-arrow-down small orange-text" id="{{ post.id }}{{ node.value.id }}arrowdown"></i></a>
