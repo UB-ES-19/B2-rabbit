@@ -221,6 +221,10 @@ def search(request):
         subscribing = get_subscribing(request.user)
         context['following'] = [user for user in result_u if following.filter(following=user)]
         context['suscribing'] = [warren for warren in result_w if subscribing.filter(subscribing=warren)]
+        scores_true = request.user.scores.filter(post__in=result_p, value=True, comment=None)
+        scores_false = request.user.scores.filter(post__in=result_p, value=False, comment=None)
+        context['scores_true'] = [s.post for s in scores_true]
+        context['scores_false'] = [s.post for s in scores_false]
     return render(request, 'search.html', context)
 
 
