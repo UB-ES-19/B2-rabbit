@@ -63,7 +63,15 @@ class Subscribe(models.Model):
     subscribing = models.ForeignKey(Warren, related_name='subscriber', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('subscribing', 'subscriber')
+        unique_together = ('suscribing', 'suscriber')
+
+class Report(models.Model):
+    cause = models.IntegerField()
+    post = models.ForeignKey(Post, related_name='reported', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='reporting', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (['user', 'post'])
 
 
 class Score(models.Model):
@@ -74,4 +82,3 @@ class Score(models.Model):
 
     class Meta:
         unique_together = (['user', 'post', 'comment'])
-
