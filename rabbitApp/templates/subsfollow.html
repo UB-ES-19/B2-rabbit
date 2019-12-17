@@ -45,12 +45,12 @@
                     if (data.status == 'ok'){
                         document.getElementById("p1"+id).innerHTML =  data.score;
                         if (votacio == 'True'){
-                            $('#arrowup').toggleClass("fas fa-arrow-up fa-1x grey-text fas fa-arrow-up fa-1x orange-text ");
-                            document.getElementById("arrowdown").setAttribute("class","fas fa-arrow-down fa-1x grey-text");
+                            $('#arrowup'+id).toggleClass("fas fa-arrow-up fa-1x grey-text fas fa-arrow-up fa-1x orange-text ");
+                            document.getElementById("arrowdown"+id).setAttribute("class","fas fa-arrow-down fa-1x grey-text");
 
                         }else{
-                            $('#arrowdown').toggleClass("fas fa-arrow-down fa-1x grey-text fas fa-arrow-down fa-1x orange-text ");
-                            document.getElementById("arrowup").setAttribute("class","fas fa-arrow-up fa-1x grey-text");
+                            $('#arrowdown'+id).toggleClass("fas fa-arrow-down fa-1x grey-text fas fa-arrow-down fa-1x orange-text ");
+                            document.getElementById("arrowup"+id).setAttribute("class","fas fa-arrow-up fa-1x grey-text");
 
 
                         }
