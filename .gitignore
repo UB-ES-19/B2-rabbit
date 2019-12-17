@@ -7,3 +7,4 @@ rabbitApp/rabbit/migrations/__pycache__/
 rabbitApp/rabbitApp/__pycache__/
 rabbitApp/rabbit/migrations/*.py
 rabbitApp/db.sqlite3
+*/.idea/
