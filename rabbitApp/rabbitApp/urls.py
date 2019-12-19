@@ -20,16 +20,31 @@ from django.urls import path
 from rabbit import views
 from rabbitApp import settings
 
-urlpatterns = [
+urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('register/', views.register, name='register'),
-    path('login', views.login_user, name='login'),
+    path('login/', views.login_user, name='login'),
     path('submit', views.create_post, name='submit'),
-    path('logout',views.logout_user, name='logout'),
-    path('submit', views.create_post, name='submit'),
-    path('imgsubmit', views.post_img, name='img_submit'),
-    path('linksubmit', views.post_link, name='link_submit'),
+    path('logout', views.logout_user, name='logout'),
+    path('imgsubmit/', views.post_img, name='img_submit'),
+    path('linksubmit/', views.post_link, name='link_submit'),
+    path('warrensubmit', views.create_warren, name='warren_submit'),
+    path('search', views.search, name='search'),
+    path('w/<str:name>/', views.warren, name='warren'),
+    path('w/<str:name>', views.warren, name='warren'),
+    path('r/<str:name>/', views.profile, name='profile'),
+    path('r/<str:name>', views.profile, name='profile'),
+    path('delete/<str:id>',views.delete, name='delete'),
+    path('follow/', views.follow, name='follow'),
+    path('p/<int:id_post>/', views.post_view, name='post'),
+    path('p/<int:id_post>', views.post_view, name='post'),
+    path('comment/<int:id_post>/', views.comment, name='comment'),
+    path('comment/<int:id_post>/<int:id_comment>', views.comment, name='comment'),
+    path('suscribe/', views.subscribe, name='suscribe'),
+    path('report/<int:id_post>/', views.report, name='report'),
+    path('vote/<int:id_post>/', views.vote, name='vote'),
+    path('vote/<int:id_post>/<int:id_comment>', views.vote, name='vote'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

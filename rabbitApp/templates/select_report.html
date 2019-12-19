@@ -1,0 +1,28 @@
+<div class="modal fade" id="modalselectreport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-primary" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Select a report</p>
+      </div>
+
+      <!--Body-->
+        <div class="modal-body">
+            <form method="post" id="reportForm">
+                {% csrf_token %}
+                <select class="browser-default custom-select"  name="drpdwn">
+                    <option value="0" disabled selected>Choose the cause of the report</option>
+                    <option value="1">Spam</option>
+                    <option value="2">Incite hate or violence</option>
+                    <option value="3">Sexual or inapropiated content</option>
+                </select>
+
+                <input type="button" onclick="send_report();" value="Send" class="btn btn-primary" id="yes_btn">
+            </form>
+        </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>

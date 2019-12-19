@@ -1,0 +1,52 @@
+{% extends 'subsfollow.html' %}
+
+{% block more-scripts %}
+    <script>
+    function deletePost(id) {
+        var uri = location.protocol + '//' + location.host + "/delete/" + id;
+        $('#yes_btn').click(function () {
+           $.ajax({
+               method : 'POST',
+               url: uri,
+               data:{
+                   'csrfmiddlewaretoken':'{{ csrf_token }}',
+               },
+               success: (data) =>{
+                   if(data.status === 'ok'){
+                       location.reload();
+                   }
+                   else if(data.status === 'error'){
+                       alert(data.message);
+                   }
+               }
+           });
+        });
+        $('#modalConfirmDelete').modal('show');
+    }
+    </script>
+    <script type="text/javascript">
+        function copyP(link) {
+
+              // Crea un campo de texto "oculto"
+              var aux = document.createElement("input");
+
+              // Asigna el contenido del elemento especificado al valor del campo
+              let ref = window.location.host;
+              aux.setAttribute("value", ref +  link);
+
+              // Añade el campo a la página
+              document.body.appendChild(aux);
+
+              // Selecciona el contenido del campo
+              aux.select();
+
+              // Copia el texto seleccionado
+              document.execCommand("copy");
+
+              // Elimina el campo de la página
+              document.body.removeChild(aux);
+
+        }
+    </script>
+
+{% endblock %}

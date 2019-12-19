@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block subs-follow-script %}
+    <script>
+    var follow = (username) => {
+        let data = $('#' + username + 'form').serialize() + "&username=" + username;
+             $.ajax({
+                method: 'POST',
+                url: "{% url 'follow' %}",
+                data: data,
+                success: (data) => {
+                    if (data.status === 'ok') {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        };
+
+    var suscribe = (name) => {
+        let data = $('#' + name + 'form').serialize() + "&name=" + name;
+             $.ajax({
+                method: 'POST',
+                url: "{% url 'suscribe' %}",
+                data: data,
+                success: (data) => {
+                    if (data.status === 'ok') {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+        };
+      var  enviarVotacio = (id,votacio) =>{
+            let data = $('#' + id + 'form').serialize() +  "&score=" + votacio;
+            var uri = location.protocol + '//' + location.host + "/vote/" + id + '/';
+            var last_update = 0;
+            $.ajax({
+                method: 'POST',
+                url: uri,
+                data: data,
+                success: (data) => {
+                    if (data.status == 'ok'){
+                        document.getElementById("p1"+id).innerHTML =  data.score;
+                        if (votacio == 'True'){
+                            $('#arrowup'+id).toggleClass("fas fa-arrow-up fa-1x grey-text fas fa-arrow-up fa-1x orange-text ");
+                            document.getElementById("arrowdown"+id).setAttribute("class","fas fa-arrow-down fa-1x grey-text");
+
+                        }else{
+                            $('#arrowdown'+id).toggleClass("fas fa-arrow-down fa-1x grey-text fas fa-arrow-down fa-1x orange-text ");
+                            document.getElementById("arrowup"+id).setAttribute("class","fas fa-arrow-up fa-1x grey-text");
+                        }
+                    } else{
+                        alert(data.message)
+                    }
+                }
+            })
+        }
+    </script>
+{% endblock %}

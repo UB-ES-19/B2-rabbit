@@ -1,0 +1,71 @@
+{% extends 'deleteModal.html' %}
+
+{% block content-body %}
+    {% for post in posts %}
+        {% include "cardpost.html" %}
+    {% endfor %}
+    {% include 'confirm_delete.html' %}
+    {% include 'select_report.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <!-- Sidebar Widgets Column -->
+    <div class="card my-4">
+
+        <a  class="card-header text-muted h5" href="{% url 'warren' warren.name %}">
+            {% if warren.profile_img %}
+            <img class="img-fluid" src="{{ warren.profile_img.url }}" style="width: 25px;height: 25px;border-radius: 50%">
+            {% endif %}
+            <b>w/{{ warren.name }}</b>
+         </a>
+        <div class="card-body">
+            <p class="card-text">Welcome to <b>w/{{ warren.name }}</b> main page.</p>
+            <p class="card-text">{{ warren.description | safe }}</p>
+            <p class="card-text"> Remember to subscribe to warrens and follow friends to keep up with the memes.</p>
+        </div>
+        {% if request.user.is_authenticated %}
+
+            <div class="card-body">
+                <a  class="my-1" href="{% url 'submit' %}"><i class="fas fa-pen cyan-text"></i>
+                    <button class="btn btn-primary btn-sm my-0 ml-3" type="button">CREATE POST</button>
+                </a>
+            </div>
+            <div class="card-body">
+                <form id="{{ warren.name }}form">
+                    {% csrf_token %}
+                    {% if warren in suscribing %}
+                        <a  class="my-1" onclick="suscribe('{{ warren.name }}');"> <i class="fas fa-users  cyan-text"></i>
+                            <button class="btn btn-outline-primary btn-sm my-0 ml-3" type="button">UnSuscribe</button>
+                        </a>
+                    {% else %}
+                        <a  class="my-1" onclick="suscribe('{{ warren.name }}');"> <i class="fas fa-users  cyan-text"></i>
+                            <button class="btn btn-primary btn-sm my-0 ml-3" type="button">Suscribe</button>
+                        </a>
+                    {% endif %}
+                </form>
+            </div>
+
+
+    </div>
+    {% endif %}
+    <div class="card my-4">
+            <h5 class="card-header">Community rules</h5>
+        <div class="card-body">
+             <p class="card-text"> Remember before posting:</p>
+            <ul>
+                <li class="card-text">Respect others users</li>
+                <li class="card-text">Behave like you would in real life</li>
+                <li class="card-text">Look for the original source of content</li>
+                <li class="card-text">Search for duplicates before posting</li>
+                <li class="card-text">Read the community’s rules</li>
+            </ul>
+        </div>
+    </div>
+    <div class="card my-4">
+            <h5 class="card-header">Rabbit disclaimer</h5>
+        <div class="card-body">
+             <p class="card-text"> Posting memes can be addictive and cause severe procrastination.</p>
+             <p class="card-text"> In no event shall Rabbit Inc be liable for any loss, personal damage, misuse of personal information or privacy breach</p>
+        </div>
+    </div>
+{% endblock sidebar %}

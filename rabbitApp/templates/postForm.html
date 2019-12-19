@@ -33,6 +33,10 @@
                         {% if form_post.description.errors %}
                             {% include 'fieldError.html' with errors=form_post.description.errors %}
                           {% endif %}
+                            <div>
+                                <label for="warren">Select a warren to post to:</label>
+                                {{ form_post.warren|add_class:"form-control mb-2" }}
+                              </div>
                           <div class="mb-2 mt-2 ">
                               <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_description()">POST</button>
                           </div>
@@ -51,9 +55,13 @@
                           {% endif %}
                           <div class="mb-2 mt-2" >
                             <div class="row">
-                                <div class="col-12" id="img_show">
+                                <div class="col-12 " id="img_show">
                                 </div>
                             </div>
+                              <div>
+                                <label for="warren">Select a warren to post to:</label>
+                                {{ form_post.warren|add_class:"form-control mb-2" }}
+                              </div>
                               <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_image()">POST</button>
                           </div>
                       </form>
@@ -69,6 +77,10 @@
                           {% if form_link.link.errors %}
                             {% include 'fieldError.html' with errors=form_link.link.errors %}
                           {% endif %}
+                            <div>
+                                <label for="warren">Select a warren to post to:</label>
+                                {{ form_post.warren|add_class:"form-control mb-2" }}
+                              </div>
                           <div class="mb-2 mt-2 ">
                               <button class="btn btn-blue btn-sm float-right" type="button" onclick="submit_link()">POST</button>
                           </div>
